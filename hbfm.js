@@ -106,21 +106,23 @@ function play(name, generator, solution) {
 
 
 const NUMBER = "0123456789";
-const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const CHARACTER = NUMBER + ALPHABET;
+const VOWEL = "AEIOU";
+const CONSONANT = "BCDFGHJKLMNPQRSTVWXYZ";
+const LETTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const CHARACTER = NUMBER + LETTER;
 
 function random(min, max) {
   return min + Math.floor(Math.random() * (max - min));
 }
 
-function random_from(x) {
-  return x[random(0, x.length)];
-}
-
-function random_sequence_from(x, n) {
+function random_from(x, n) {
+  const pool = Array.from(x);
   let out = "";
-  for(let i = 0; i < n; i++) {
-    out += random_from(x);
+  while(n-- && pool.length) {
+    const i = random(0, pool.length);
+    out += pool[i];
+    pool[i] = pool[pool.length - 1];
+    pool.pop();
   }
   return out;
 }
@@ -138,7 +140,7 @@ function merge(a, b) {
 play(
   "Year 01: Mail Room",
   () => {
-    const x = random_sequence_from(CHARACTER, 3);
+    const x = random_from(CHARACTER, 3);
     return [x, x];
   },
   ",.,.,.",
@@ -147,7 +149,7 @@ play(
 play(
   "Year 02: Busy Mail Room",
   () => {
-    const x = random_sequence_from(CHARACTER, random(8, 25));
+    const x = random_from(CHARACTER, random(8, 25));
     return [x, x];
   },
   ",[.,]",
@@ -155,14 +157,14 @@ play(
 
 play(
   "Year 03: Copy Floor",
-  () => ["", ALPHABET],
+  () => ["", LETTER],
   "+++++++++++++[>++>+++++<<-]>[>.+<-]",
 );
 
 play(
   "Year 04: Scrambler Handler",
   () => {
-    const x = random_sequence_from(CHARACTER, random(4, 13) * 2);
+    const x = random_from(CHARACTER, random(4, 13) * 2);
     let y = "";
     for(let i = 0; i < x.length; i++) { y += x[i ^ 1]; }
     return [x, y];
@@ -179,8 +181,8 @@ play(
     for(let i = 0; i < n; i++) {
       const o = random(0, 10);
       const l = random(0, 26 - o);
-      x += ALPHABET[l] + NUMBER[o];
-      y += ALPHABET[l + o];
+      x += LETTER[l] + NUMBER[o];
+      y += LETTER[l + o];
     }
     return [x, y];
   },
@@ -192,7 +194,7 @@ play(
   "Year 07: Zero Exterminator",
   () => {
     const n = random(4, 13);
-    const a = random_sequence_from(CHARACTER.slice(1), n);
+    const a = random_from(CHARACTER.slice(1), n);
     const b = "".padStart(n, "0");
     return [merge(a, b), a];
   },
@@ -220,7 +222,7 @@ play(
   "Year 09: Zero Preservation Initiative",
   () => {
     const n = random(4, 13);
-    const a = random_sequence_from(CHARACTER.slice(1), n);
+    const a = random_from(CHARACTER.slice(1), n);
     const b = "".padStart(n, "0");
     return [merge(a, b), b];
   },
@@ -256,15 +258,13 @@ play(
   "Year 13: Equalization Room",
   () => {
     const n = random(2, 7);
-    const y = random_sequence_from(CHARACTER, n);
+    const y = random_from(CHARACTER, n);
 
     const eq = new Array(n);
     const ne = new Array(n);
     for(let i = 0; i < n; i++) {
       eq[i] = y[i] + y[i];
-      do {
-        ne[i] = random_sequence_from(CHARACTER, 2);
-      } while(ne[i][0] === ne[i][1]);
+      ne[i] = random_from(CHARACTER, 2);
     }
 
     return [merge(eq, ne), y];
@@ -330,7 +330,7 @@ play(
 play(
   "Year 31: String Reverse",
   () => {
-    const x = random_sequence_from(CHARACTER, random(8, 25));
+    const x = random_from(CHARACTER, random(8, 25));
     return [x, x.split("").reverse().join("")];
   },
   ">,[>,]<[.<]",
@@ -342,6 +342,10 @@ play(
 
 play(
   "Year 34: Vowel Incinerator",
+  () => {
+    const y = random_from(NUMBER + CONSONANT, random(5, 11));
+    return [merge(random_from(VOWEL, VOWEL.length), y), y];
+  },
 );
 
 play(
