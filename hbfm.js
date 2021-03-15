@@ -51,10 +51,57 @@ function brainfuck(code, input) {
         continue;
     }
 
-    ++t;
+    if(++t === 0x1000000) {
+      throw new Error("Program ran for too many steps");
+    }
   }
 
-  return [output, t];
+  return output;
+}
+
+function play(name, generator, solution) {
+  if(generator === undefined) {
+    console.warn("%s NOT YET DEFINED!", name);
+    return;
+  }
+
+  const [input, expected] = generator();
+  if(solution === undefined) {
+    console.warn(
+      "%s NOT YET SOLVED!\n  %j -> %j",
+      name,
+      input,
+      expected,
+    );
+    return;
+  }
+
+  try {
+    const actual = brainfuck(solution, input);
+    if(actual !== expected) {
+      console.warn(
+        "%s FAILED: Output did not match expectation!\n  Input: %j\n  Output: %j\n  Expected: %j",
+        name,
+        input,
+        actual,
+        expected,
+      );
+      return;
+    }
+  }
+  catch(err) {
+    console.warn(
+      "%s FAILED: %s!",
+      name,
+      err.message,
+    );
+    return;
+  }
+
+  console.log(
+    "%s OK!",
+    name,
+  );
 }
 
 
@@ -66,138 +113,162 @@ function random(min, max) {
   return min + Math.floor(Math.random() * (max - min));
 }
 
-function pick(string, n=1) { 
+function random_from(x) {
+  return x[random(0, x.length)];
+}
+
+function random_sequence_from(x, n) {
   let out = "";
-  while(n--) { out += string[random(0, string.length)]; }
+  for(let i = 0; i < n; i++) {
+    out += random_from(x);
+  }
   return out;
 }
 
-function shuffle(string) {
-  string = string.split("");
-  for(let i = string.length; i; ) {
-    const j = random(0, i--);
-    const t = string[i];
-    string[i] = string[j];
-    string[j] = t;
-  }
-  return string.join("");
+function merge(a, b) {
+  a = Array.from(a);
+  b = Array.from(b);
+  let c = "";
+  while(a.length && b.length) { c += ((Math.random() < 0.5)? a: b).shift(); }
+  while(a.length) { c += a.shift(); }
+  while(b.length) { c += b.shift(); }
+  return c;
 }
+  
+play(
+  "Year 01: Mail Room",
+  () => {
+    const x = random_sequence_from(CHARACTER, 3);
+    return [x, x];
+  },
+  ",.,.,.",
+);
 
-function year_01_mail_room() {
-  const x = pick(CHARACTER, 3);
-  return [x, x];
-}
+play(
+  "Year 02: Busy Mail Room",
+  () => {
+    const x = random_sequence_from(CHARACTER, random(8, 25));
+    return [x, x];
+  },
+  ",[.,]",
+);
 
-function year_02_busy_mail_room() {
-  const x = pick(CHARACTER, random(8, 25));
-  return [x, x];
-}
+play(
+  "Year 03: Copy Floor",
+  () => ["", ALPHABET],
+  "+++++++++++++[>++>+++++<<-]>[>.+<-]",
+);
 
-function year_03_copy_floor() {
-  return ["", ALPHABET];
-}
+play(
+  "Year 04: Scrambler Handler",
+  () => {
+    const x = random_sequence_from(CHARACTER, random(4, 13) * 2);
+    let y = "";
+    for(let i = 0; i < x.length; i++) { y += x[i ^ 1]; }
+    return [x, y];
+  },
+  ",[>,.<.,]",
+);
 
-function year_04_scrambler_handler() {
-  const x = pick(CHARACTER, random(4, 13) * 2);
-  let y = "";
-  for(let i = 0; i < x.length; i++) { y += x[i ^ 1]; }
-  return [x, y];
-}
-
-function year_06_rainy_summer() {
-  const n = random(4, 13);
-  let x = "";
-  let y = "";
-  for(let i = 0; i < n; i++) {
-    const o = random(0, 10);
-    const l = random(0, 26 - o);
-    x += ALPHABET[l] + NUMBER[o];
-    y += ALPHABET[l + o];
-  }
-  return [x, y];
-}
-
-function year_07_zero_exterminator() {
-  const n = random(4, 13);
-  const x = shuffle(pick(CHARACTER.slice(1), n).padStart(n * 2, "0"));
-  return [x, x.replace(/0/g, "")];
-}
-
-function year_08_tripler_room() {
-  // FIXME: take in a digit, output two?
-}
-
-function year_09_zero_preservation_initiative() {
-  const n = random(4, 13);
-  const x = shuffle(pick(CHARACTER.slice(1), n).padStart(n * 2, "0"));
-  return [x, "".padStart(n, "0")];
-}
-
-function year_10_octoplier_suite() {
-  // FIXME: take in a digit, output two?
-}
-
-function year_11_sub_hallway() {
-  // FIXME
-}
-
-function year_12_tetracontiplier() {
-  // FIXME: take in a digit, output three?
-}
-
-function year_13_equalization_room() {
-  // FIXME: print one of equal pairs, discard unequal pairs
-}
-
-function year_14_maximation_room() {
-  // FIXME
-}
-
-function year_31_string_reverser() {
-  const x = pick(CHARACTER, random(8, 25));
-  return [x, x.split("").reverse().join("")];
-}
-
-
-years: for(const [year, solution] of [
-  [year_01_mail_room, ",.,.,."],
-  [year_02_busy_mail_room, ",[.,]"],
-  [year_03_copy_floor, "+++++++++++++[>++>+++++<<-]>[>.+<-]"],
-  [year_04_scrambler_handler, ",[>,.<.,]"],
-  // FIXME: can we do better?
-  [year_06_rainy_summer, ",[>,[<+>-]++++++[<-------->-]<.,]"],
-  // FIXME: can we do better?
-  [year_07_zero_exterminator, ",[[>+>+<<-]++++++[>--------<-]>[>.<[-]]>[-]<<,]"],
-  // FIXME: can we do better?
-  [year_09_zero_preservation_initiative, ",[[>+>+<<-]++++++[>--------<-]>[>[-]<[-]]>[.[-]]<<,]"],
-  [year_31_string_reverser, ">,[>,]<[.<]"],
-]) {
-  for(let i = 0; i < 256; i++) {
-    const [input, expected] = year();
-    try {
-      const [actual] = brainfuck(solution, input);
-      if(actual !== expected) {
-        throw new Error("Incorrect output");
-      }
+play(
+  "Year 06: Rainy Summer",
+  () => {
+    const n = random(4, 13);
+    let x = "";
+    let y = "";
+    for(let i = 0; i < n; i++) {
+      const o = random(0, 10);
+      const l = random(0, 26 - o);
+      x += ALPHABET[l] + NUMBER[o];
+      y += ALPHABET[l + o];
     }
-    catch(err) {
-      console.log(
-        "%s FAILED: %s!\n  input: %j\n  expected: %j",
-        year.name,
-        err.message,
-        input,
-        expected,
-      );
-      continue years;
-    }
-  }
+    return [x, y];
+  },
+  // FIXME: can we do better?
+  ",[>,[<+>-]++++++[<-------->-]<.,]",
+);
 
-  console.log(
-    "%s OK! (%d)",
-    year.name.
-      replace(/[a-z]/, x => x.toUpperCase()).
-      replace(/_./g, x => " " + x[1].toUpperCase()).
-      replace(/[0-9]+/, x => x + ":"),
-    solution.replace(/[^+,\-\.<>\[\]]/g, "").length,
-  );
-}
+play(
+  "Year 07: Zero Exterminator",
+  () => {
+    const n = random(4, 13);
+    const a = random_sequence_from(CHARACTER.slice(1), n);
+    const b = "".padStart(n, "0");
+    return [merge(a, b), a];
+  },
+  // FIXME: can we do better?
+  ",[[>+>+<<-]++++++[>--------<-]>[>.<[-]]>[-]<<,]",
+);
+
+play(
+  "Year 08: Tripler Room",
+  () => {
+    const n = random(4, 13);
+    let x = "";
+    let y = "";
+    for(let i = 0; i < n; i++) {
+      const a = random(0, 10);
+      x += NUMBER[a];
+      y += (a * 3).toString().padStart(2, "0");
+    }
+    return [x, y];
+  },
+);
+
+play(
+  "Year 09: Zero Preservation Initiative",
+  () => {
+    const n = random(4, 13);
+    const a = random_sequence_from(CHARACTER.slice(1), n);
+    const b = "".padStart(n, "0");
+    return [merge(a, b), b];
+  },
+  // FIXME: can we do better?
+  ",[[>+>+<<-]++++++[>--------<-]>[>[-]<[-]]>[.[-]]<<,]",
+);
+
+play(
+  "Year 10: Octoplier Suite",
+  // FIXME: Take in 0-99, output three digits?
+);
+
+play(
+  "Year 11: Sub Hallway",
+);
+
+play(
+  "Year 12: Tetracontiplier",
+  // FIXME: Take in 0-255, output five digits?
+);
+
+play(
+  "Year 13: Equalization Room",
+  () => {
+    const n = random(2, 7);
+    const y = random_sequence_from(CHARACTER, n);
+
+    const eq = new Array(n);
+    const ne = new Array(n);
+    for(let i = 0; i < n; i++) {
+      eq[i] = y[i] + y[i];
+      do {
+        ne[i] = random_sequence_from(CHARACTER, 2);
+      } while(ne[i][0] === ne[i][1]);
+    }
+
+    return [merge(eq, ne), y];
+  },
+);
+
+play(
+  "Year 14: Maximation Room",
+);
+
+play(
+  "Year 31: String Reverser",
+  () => {
+    const x = random_sequence_from(CHARACTER, random(8, 25));
+    return [x, x.split("").reverse().join("")];
+  },
+  ">,[>,]<[.<]",
+);
