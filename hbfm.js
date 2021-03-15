@@ -109,7 +109,6 @@ const NUMBER = "0123456789";
 const VOWEL = "AEIOU";
 const CONSONANT = "BCDFGHJKLMNPQRSTVWXYZ";
 const LETTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const CHARACTER = NUMBER + LETTER;
 
 function random(min, max) {
   return min + Math.floor(Math.random() * (max - min));
@@ -136,11 +135,23 @@ function merge(a, b) {
   while(b.length) { c += b.shift(); }
   return c;
 }
+
+function numbers(min, max, n) {
+  const list = [min, max - 1];
+  while(list.length < n) {
+    const x = random(min + 1, max - 1);
+    if(!list.includes(x)) {
+      list.push(x);
+    }
+  }
+  // FIXME: randomize the positions of the first two items!
+  return list;
+}
   
 play(
   "Year 01: Mail Room",
   () => {
-    const x = random_from(CHARACTER, 3);
+    const x = random_from(NUMBER + LETTER, 3);
     return [x, x];
   },
   ",.,.,.",
@@ -149,7 +160,7 @@ play(
 play(
   "Year 02: Busy Mail Room",
   () => {
-    const x = random_from(CHARACTER, random(8, 25));
+    const x = random_from(NUMBER + LETTER, random(8, 25));
     return [x, x];
   },
   ",[.,]",
@@ -164,7 +175,7 @@ play(
 play(
   "Year 04: Scrambler Handler",
   () => {
-    const x = random_from(CHARACTER, random(4, 13) * 2);
+    const x = random_from(NUMBER + LETTER, random(4, 13) * 2);
     let y = "";
     for(let i = 0; i < x.length; i++) { y += x[i ^ 1]; }
     return [x, y];
@@ -175,13 +186,14 @@ play(
 play(
   "Year 06: Rainy Summer",
   () => {
-    const n = random(4, 13);
+    const n = random(4, 11);
+    const ns = numbers(0, 10, n);
     let x = "";
     let y = "";
     for(let i = 0; i < n; i++) {
-      const o = random(0, 10);
+      const o = ns[i];
       const l = random(0, 26 - o);
-      x += LETTER[l] + NUMBER[o];
+      x += LETTER[l] + o.toString();
       y += LETTER[l + o];
     }
     return [x, y];
@@ -194,7 +206,7 @@ play(
   "Year 07: Zero Exterminator",
   () => {
     const n = random(4, 13);
-    const a = random_from(CHARACTER.slice(1), n);
+    const a = random_from(NUMBER.slice(1) + LETTER, n);
     const b = "".padStart(n, "0");
     return [merge(a, b), a];
   },
@@ -205,12 +217,13 @@ play(
 play(
   "Year 08: Tripler Room",
   () => {
-    const n = random(4, 13);
+    const n = random(4, 11);
+    const ns = numbers(0, 10, n);
     let x = "";
     let y = "";
     for(let i = 0; i < n; i++) {
-      const a = random(0, 10);
-      x += NUMBER[a];
+      const a = ns[i];
+      x += a.toString();
       y += (a * 3).toString().padStart(2, "0");
     }
     return [x, y];
@@ -221,7 +234,7 @@ play(
   "Year 09: Zero Preservation Initiative",
   () => {
     const n = random(4, 13);
-    const a = random_from(CHARACTER.slice(1), n);
+    const a = random_from(NUMBER.slice(1) + LETTER, n);
     const b = "".padStart(n, "0");
     return [merge(a, b), b];
   },
@@ -232,11 +245,12 @@ play(
 play(
   "Year 10: Octoplier Suite",
   () => { 
-    const n = random(4, 13);
+    const n = random(4, 9);
+    const ns = numbers(0, 100, n);
     let x = ""; 
     let y = ""; 
     for(let i = 0; i < n; i++) {
-      const a = random(0, 100);
+      const a = ns[i];
       x += a.toString().padStart(2, "0");
       y += (a * 8).toString().padStart(3, "0");
     }
@@ -251,11 +265,12 @@ play(
 play(
   "Year 12: Tetracontiplier",
   () => {
-    const n = random(4, 9);
+    const n = random(4, 7);
+    const ns = numbers(0, 256, n);
     let x = "";
     let y = "";
     for(let i = 0; i < n; i++) {
-      const a = random(0, 256);
+      const a = ns[i];
       x += a.toString().padStart(3, "0");
       y += (a * 40).toString().padStart(5, "0");
     }
@@ -267,13 +282,13 @@ play(
   "Year 13: Equalization Room",
   () => {
     const n = random(2, 7);
-    const y = random_from(CHARACTER, n);
+    const y = random_from(NUMBER + LETTER, n);
 
     const eq = new Array(n);
     const ne = new Array(n);
     for(let i = 0; i < n; i++) {
       eq[i] = y[i] + y[i];
-      ne[i] = random_from(CHARACTER, 2);
+      ne[i] = random_from(NUMBER + LETTER, 2);
     }
 
     return [merge(eq, ne), y];
@@ -339,7 +354,7 @@ play(
 play(
   "Year 31: String Reverse",
   () => {
-    const x = random_from(CHARACTER, random(8, 25));
+    const x = random_from(NUMBER + LETTER, random(8, 25));
     return [x, x.split("").reverse().join("")];
   },
   ">,[>,]<[.<]",
