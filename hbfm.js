@@ -215,7 +215,6 @@ play(
     }
     return [x, y];
   },
-  //",[>++++++[<-------->-]<[>+++<-]>{divide by 10 and print as 2 ascii chars},]"
 );
 
 play(
@@ -251,7 +250,17 @@ play(
 
 play(
   "Year 12: Tetracontiplier",
-  // FIXME: Take in 0-255, output five digits?
+  () => {
+    const n = random(4, 9);
+    let x = "";
+    let y = "";
+    for(let i = 0; i < n; i++) {
+      const a = random(0, 256);
+      x += a.toString().padStart(3, "0");
+      y += (a * 40).toString().padStart(5, "0");
+    }
+    return [x, y];
+  },
 );
 
 play(
