@@ -111,17 +111,20 @@ const CONSONANT = "BCDFGHJKLMNPQRSTVWXYZ";
 const LETTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 function random(min, max) {
-  return min + Math.floor(Math.random() * (max - min));
+  return min + Math.floor(Math.random() * (max + 1 - min));
 }
 
-function random_from(x, n) {
-  const pool = Array.from(x);
-  let out = "";
-  while(n-- && pool.length) {
-    const i = random(0, pool.length);
-    out += pool[i];
-    pool[i] = pool[pool.length - 1];
-    pool.pop();
+function shuffle(iterable, n=undefined) {
+  const array = Array.from(iterable);
+  const out = [];
+  if(n === undefined || n > array.length) {
+    n = array.length;
+  }
+  while(n--) {
+    const i = random(0, array.length - 1);
+    out.push(array[i]);
+    array[i] = array[array.length - 1];
+    array.pop();
   }
   return out;
 }
@@ -137,21 +140,19 @@ function merge(a, b) {
 }
 
 function numbers(min, max, n) {
-  const list = [min, max - 1];
-  while(list.length < n) {
-    const x = random(min + 1, max - 1);
-    if(!list.includes(x)) {
-      list.push(x);
-    }
+  const set = new Set();
+  set.add(min);
+  set.add(max);
+  while(set.size < n) {
+    set.add(random(min + 1, max - 1));
   }
-  // FIXME: randomize the positions of the first two items!
-  return list;
+  return shuffle(set);
 }
   
 play(
   "Year 01: Mail Room",
   () => {
-    const x = random_from(NUMBER + LETTER, 3);
+    const x = shuffle(NUMBER + LETTER, 3).join("");
     return [x, x];
   },
   ",.,.,.",
@@ -160,7 +161,7 @@ play(
 play(
   "Year 02: Busy Mail Room",
   () => {
-    const x = random_from(NUMBER + LETTER, random(8, 25));
+    const x = shuffle(NUMBER + LETTER, random(8, 24)).join("");
     return [x, x];
   },
   ",[.,]",
@@ -175,7 +176,7 @@ play(
 play(
   "Year 04: Scrambler Handler",
   () => {
-    const x = random_from(NUMBER + LETTER, random(4, 13) * 2);
+    const x = shuffle(NUMBER + LETTER, random(4, 12) * 2).join("");
     let y = "";
     for(let i = 0; i < x.length; i++) { y += x[i ^ 1]; }
     return [x, y];
@@ -186,15 +187,15 @@ play(
 play(
   "Year 06: Rainy Summer",
   () => {
-    const n = random(4, 11);
-    const ns = numbers(0, 10, n);
+    const n = random(4, 10);
+    const ns = numbers(0, 9, n);
     let x = "";
     let y = "";
     for(let i = 0; i < n; i++) {
-      const o = ns[i];
-      const l = random(0, 26 - o);
-      x += LETTER[l] + o.toString();
-      y += LETTER[l + o];
+      const a = ns[i];
+      const b = random(0, 25 - a);
+      x += LETTER[b] + a.toString();
+      y += LETTER[b + a];
     }
     return [x, y];
   },
@@ -205,8 +206,8 @@ play(
 play(
   "Year 07: Zero Exterminator",
   () => {
-    const n = random(4, 13);
-    const a = random_from(NUMBER.slice(1) + LETTER, n);
+    const n = random(4, 12);
+    const a = shuffle(NUMBER.slice(1) + LETTER, n).join("");
     const b = "".padStart(n, "0");
     return [merge(a, b), a];
   },
@@ -217,14 +218,13 @@ play(
 play(
   "Year 08: Tripler Room",
   () => {
-    const n = random(4, 11);
-    const ns = numbers(0, 10, n);
+    const n = random(4, 10);
+    const ns = numbers(0, 9, n);
     let x = "";
     let y = "";
     for(let i = 0; i < n; i++) {
-      const a = ns[i];
-      x += a.toString();
-      y += (a * 3).toString().padStart(2, "0");
+      x += ns[i].toString();
+      y += (ns[i] * 3).toString().padStart(2, "0");
     }
     return [x, y];
   },
@@ -233,8 +233,8 @@ play(
 play(
   "Year 09: Zero Preservation Initiative",
   () => {
-    const n = random(4, 13);
-    const a = random_from(NUMBER.slice(1) + LETTER, n);
+    const n = random(4, 12);
+    const a = shuffle(NUMBER.slice(1) + LETTER, n).join("");
     const b = "".padStart(n, "0");
     return [merge(a, b), b];
   },
@@ -245,14 +245,13 @@ play(
 play(
   "Year 10: Octoplier Suite",
   () => { 
-    const n = random(4, 9);
-    const ns = numbers(0, 100, n);
+    const n = random(4, 8);
+    const ns = numbers(0, 99, n);
     let x = ""; 
     let y = ""; 
     for(let i = 0; i < n; i++) {
-      const a = ns[i];
-      x += a.toString().padStart(2, "0");
-      y += (a * 8).toString().padStart(3, "0");
+      x += ns[i].toString().padStart(2, "0");
+      y += (ns[i] * 8).toString().padStart(3, "0");
     }
     return [x, y];
   },
@@ -265,14 +264,13 @@ play(
 play(
   "Year 12: Tetracontiplier",
   () => {
-    const n = random(4, 7);
-    const ns = numbers(0, 256, n);
+    const n = random(4, 6);
+    const ns = numbers(0, 255, n);
     let x = "";
     let y = "";
     for(let i = 0; i < n; i++) {
-      const a = ns[i];
-      x += a.toString().padStart(3, "0");
-      y += (a * 40).toString().padStart(5, "0");
+      x += ns[i].toString().padStart(3, "0");
+      y += (ns[i] * 40).toString().padStart(5, "0");
     }
     return [x, y];
   },
@@ -281,14 +279,14 @@ play(
 play(
   "Year 13: Equalization Room",
   () => {
-    const n = random(2, 7);
-    const y = random_from(NUMBER + LETTER, n);
+    const n = random(4, 6);
+    const y = shuffle(NUMBER + LETTER, n).join("");
 
     const eq = new Array(n);
     const ne = new Array(n);
     for(let i = 0; i < n; i++) {
       eq[i] = y[i] + y[i];
-      ne[i] = random_from(NUMBER + LETTER, 2);
+      ne[i] = shuffle(NUMBER + LETTER, 2).join("");
     }
 
     return [merge(eq, ne), y];
@@ -354,8 +352,10 @@ play(
 play(
   "Year 31: String Reverse",
   () => {
-    const x = random_from(NUMBER + LETTER, random(8, 25));
-    return [x, x.split("").reverse().join("")];
+    const chars = shuffle(NUMBER + LETTER, random(8, 24));
+    const x = chars.join("");
+    const y = chars.reverse().join("");
+    return [x, y];
   },
   ">,[>,]<[.<]",
 );
@@ -367,8 +367,8 @@ play(
 play(
   "Year 34: Vowel Incinerator",
   () => {
-    const y = random_from(NUMBER + CONSONANT, random(5, 11));
-    return [merge(random_from(VOWEL, VOWEL.length), y), y];
+    const y = shuffle(NUMBER + CONSONANT, random(5, 10)).join("");
+    return [merge(shuffle(VOWEL), y), y];
   },
 );
 
