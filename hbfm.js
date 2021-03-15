@@ -68,7 +68,7 @@ function play(name, generator, solution) {
   const [input, expected] = generator();
   if(solution === undefined) {
     console.warn(
-      "%s NOT YET SOLVED!\n  %j -> %j",
+      "%s NOT YET SOLVED!\n  Input: %j\n  Expected: %j",
       name,
       input,
       expected,
@@ -80,11 +80,11 @@ function play(name, generator, solution) {
     const actual = brainfuck(solution, input);
     if(actual !== expected) {
       console.warn(
-        "%s FAILED: Output did not match expectation!\n  Input: %j\n  Output: %j\n  Expected: %j",
+        "%s FAILED: Output did not match expectation!\n  Input: %j\n  Expected: %j\n  Actual: %j",
         name,
         input,
-        actual,
         expected,
+        actual,
       );
       return;
     }
@@ -213,6 +213,7 @@ play(
     }
     return [x, y];
   },
+  //",[>++++++[<-------->-]<[>+++<-]>{divide by 10 and print as 2 ascii chars},]"
 );
 
 play(
@@ -229,7 +230,17 @@ play(
 
 play(
   "Year 10: Octoplier Suite",
-  // FIXME: Take in 0-99, output three digits?
+  () => { 
+    const n = random(4, 13);
+    let x = ""; 
+    let y = ""; 
+    for(let i = 0; i < n; i++) {
+      const a = random(0, 100);
+      x += a.toString().padStart(2, "0");
+      y += (a * 8).toString().padStart(3, "0");
+    }
+    return [x, y];
+  },
 );
 
 play(
@@ -265,10 +276,98 @@ play(
 );
 
 play(
-  "Year 31: String Reverser",
+  "Year 16: Absolute Positivity",
+);
+
+play(
+  "Year 17: Exclusive Lounge",
+);
+
+play(
+  "Year 19: Countdown",
+);
+
+play(
+  "Year 20: Multiplication Workshop",
+);
+
+play(
+  "Year 21: Zero Terminated Sum",
+);
+
+play(
+  "Year 22: Fibonacci Visitor",
+);
+
+play(
+  "Year 23: The Littlest Number",
+);
+
+play(
+  "Year 24: Mod Module",
+);
+
+play(
+  "Year 25: Cumulative Countdown",
+);
+
+play(
+  "Year 26: Small Divide",
+);
+
+play(
+  "Year 28: Three Sort",
+);
+
+play(
+  "Year 29: Storage Floor",
+);
+
+play(
+  "Year 30: String Storage Floor",
+);
+
+play(
+  "Year 31: String Reverse",
   () => {
     const x = random_sequence_from(CHARACTER, random(8, 25));
     return [x, x.split("").reverse().join("")];
   },
   ">,[>,]<[.<]",
+);
+
+play(
+  "Year 32: Inventory Report",
+);
+
+play(
+  "Year 34: Vowel Incinerator",
+);
+
+play(
+  "Year 35: Duplicate Removal",
+);
+
+play(
+  "Year 36: Alphabetizer",
+);
+
+play(
+  "Year 37: Scavenger Chain",
+);
+
+play(
+  "Year 38: Digit Exploder",
+);
+
+play(
+  "Year 39: Re-Coordinator",
+);
+
+play(
+  "Year 40: Prime Factory",
+);
+
+play(
+  "Year 41: Sorting Floor",
 );
