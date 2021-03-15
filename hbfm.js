@@ -1,148 +1,4 @@
-const NUMBER = "0123456789";
-const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const CHARACTER = NUMBER + ALPHABET;
-
-function random(min, max) {
-  return min + Math.floor(Math.random() * (max - min));
-}
-
-function pick(string, n=1) { 
-  let out = "";
-  while(n--) { out += string[random(0, string.length)]; }
-  return out;
-}
-
-function shuffle(string) {
-  string = string.split("");
-  for(let i = string.length; i; ) {
-    const j = random(0, i--);
-    const t = string[i];
-    string[i] = string[j];
-    string[j] = t;
-  }
-  return string.join("");
-}
-
-const years = [
-  [
-    "Year 01: Mail Room",
-    ",.,.,.",
-    () => {
-      const x = pick(CHARACTER, 3);
-      return [x, x];
-    },
-  ],
-  [
-    "Year 02: Busy Mail Room",
-    ",[.,]",
-    () => {
-      const x = pick(CHARACTER, random(8, 25));
-      return [x, x];
-    },
-  ],
-  [
-    "Year 03: Copy Floor",
-    "+++++++++++++[>++>+++++<<-]>[>.+<-]",
-    () => ["", ALPHABET],
-  ],
-  [
-    "Year 04: Scrambler Handler",
-    ",[>,.<.,]",
-    () => {
-      const x = pick(CHARACTER, random(4, 13) * 2);
-      let y = "";
-      for(let i = 0; i < x.length; i++) { y += x[i ^ 1]; }
-      return [x, y];
-    },
-  ],
-  [
-    "Year 06: Rainy Summer",
-    ",[>,[<+>-]++++++[<-------->-]<.,]", // FIXME: can we do better?
-    () => {
-      const n = random(4, 13);
-      let x = "";
-      let y = "";
-      for(let i = 0; i < n; i++) {
-        const o = random(0, 10);
-        const l = random(0, 26 - o);
-        x += ALPHABET[l] + NUMBER[o];
-        y += ALPHABET[l + o];
-      }
-      return [x, y];
-    },
-  ],
-  [
-    "Year 07: Zero Exterminator",
-    ",[[>+>+<<-]++++++[>--------<-]>[>.<[-]]>[-]<<,]", // FIXME: can we do better?
-    () => {
-      const n = random(4, 13);
-      const x = shuffle(pick(CHARACTER.slice(1), n).padStart(n * 2, "0"));
-      return [x, x.replace(/0/g, "")];
-    },
-  ],
-/*
-  [
-    "Year 08: Tripler Room",
-    "",
-    () => {
-      // FIXME: take in a digit, output two?
-    },
-  ],
-*/
-  [
-    "Year 09: Zero Preservation Initiative",
-    "",
-    () => {
-      const n = random(4, 13);
-      const x = shuffle(pick(CHARACTER.slice(1), n).padStart(n * 2, "0"));
-      return [x, "".padStart(n, "0")];
-    },
-  ],
-/*
-  [
-    "Year 10: Octoplier Suite",
-    "",
-    () => {
-      // FIXME: take in a digit, output two?
-    },
-  ],
-  [
-    "Year 11: Sub Hallway",
-    "",
-    () => {
-    },
-  ],
-  [
-    "Year 12: Tetracontiplier",
-    "",
-    () => {
-      // FIXME: take in a digit, output three?
-    },
-  ],
-  [
-    "Year 13: Equalization Room",
-    "",
-    () => {
-      // print one of equal pairs, discard unequal pairs
-    },
-  ],
-  [
-    "Year 14: Maximation Room",
-    "",
-    () => {
-    },
-  ],
-*/
-  [
-    "Year 31: String Reverser",
-    ">,[>,]<[.<]",
-    () => {
-      const x = pick(CHARACTER, random(8, 25));
-      return [x, x.split("").reverse().join("")];
-    },
-  ],
-];
-
+"use strict";
 
 function brainfuck(code, input) {
   const data = new Uint8Array(30000);
@@ -202,18 +58,146 @@ function brainfuck(code, input) {
 }
 
 
-for(const [name, par, generator] of years) {
-  const [input, expected] = generator();
-  console.log("%s\n  %j -> %j", name, input, expected);
+const NUMBER = "0123456789";
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const CHARACTER = NUMBER + ALPHABET;
 
-  let mean = 0;
+function random(min, max) {
+  return min + Math.floor(Math.random() * (max - min));
+}
+
+function pick(string, n=1) { 
+  let out = "";
+  while(n--) { out += string[random(0, string.length)]; }
+  return out;
+}
+
+function shuffle(string) {
+  string = string.split("");
+  for(let i = string.length; i; ) {
+    const j = random(0, i--);
+    const t = string[i];
+    string[i] = string[j];
+    string[j] = t;
+  }
+  return string.join("");
+}
+
+function year_01_mail_room() {
+  const x = pick(CHARACTER, 3);
+  return [x, x];
+}
+
+function year_02_busy_mail_room() {
+  const x = pick(CHARACTER, random(8, 25));
+  return [x, x];
+}
+
+function year_03_copy_floor() {
+  return ["", ALPHABET];
+}
+
+function year_04_scrambler_handler() {
+  const x = pick(CHARACTER, random(4, 13) * 2);
+  let y = "";
+  for(let i = 0; i < x.length; i++) { y += x[i ^ 1]; }
+  return [x, y];
+}
+
+function year_06_rainy_summer() {
+  const n = random(4, 13);
+  let x = "";
+  let y = "";
+  for(let i = 0; i < n; i++) {
+    const o = random(0, 10);
+    const l = random(0, 26 - o);
+    x += ALPHABET[l] + NUMBER[o];
+    y += ALPHABET[l + o];
+  }
+  return [x, y];
+}
+
+function year_07_zero_exterminator() {
+  const n = random(4, 13);
+  const x = shuffle(pick(CHARACTER.slice(1), n).padStart(n * 2, "0"));
+  return [x, x.replace(/0/g, "")];
+}
+
+function year_08_tripler_room() {
+  // FIXME: take in a digit, output two?
+}
+
+function year_09_zero_preservation_initiative() {
+  const n = random(4, 13);
+  const x = shuffle(pick(CHARACTER.slice(1), n).padStart(n * 2, "0"));
+  return [x, "".padStart(n, "0")];
+}
+
+function year_10_octoplier_suite() {
+  // FIXME: take in a digit, output two?
+}
+
+function year_11_sub_hallway() {
+  // FIXME
+}
+
+function year_12_tetracontiplier() {
+  // FIXME: take in a digit, output three?
+}
+
+function year_13_equalization_room() {
+  // FIXME: print one of equal pairs, discard unequal pairs
+}
+
+function year_14_maximation_room() {
+  // FIXME
+}
+
+function year_31_string_reverser() {
+  const x = pick(CHARACTER, random(8, 25));
+  return [x, x.split("").reverse().join("")];
+}
+
+
+years: for(const [year, solution] of [
+  [year_01_mail_room, ",.,.,."],
+  [year_02_busy_mail_room, ",[.,]"],
+  [year_03_copy_floor, "+++++++++++++[>++>+++++<<-]>[>.+<-]"],
+  [year_04_scrambler_handler, ",[>,.<.,]"],
+  // FIXME: can we do better?
+  [year_06_rainy_summer, ",[>,[<+>-]++++++[<-------->-]<.,]"],
+  // FIXME: can we do better?
+  [year_07_zero_exterminator, ",[[>+>+<<-]++++++[>--------<-]>[>.<[-]]>[-]<<,]"],
+  // FIXME: can we do better?
+  [year_09_zero_preservation_initiative, ",[[>+>+<<-]++++++[>--------<-]>[>[-]<[-]]>[.[-]]<<,]"],
+  [year_31_string_reverser, ">,[>,]<[.<]"],
+]) {
   for(let i = 0; i < 256; i++) {
-    const [actual, steps] = brainfuck(par, input);
-    if(actual !== expected) {
-      throw new Error("Par solution didn't work!");
+    const [input, expected] = year();
+    try {
+      const [actual] = brainfuck(solution, input);
+      if(actual !== expected) {
+        throw new Error("Incorrect output");
+      }
     }
-    mean += steps / 256;
+    catch(err) {
+      console.log(
+        "%s FAILED: %s!\n  input: %j\n  expected: %j",
+        year.name,
+        err.message,
+        input,
+        expected,
+      );
+      continue years;
+    }
   }
 
-  console.log("  %d", mean);
+  console.log(
+    "%s OK! (%d)",
+    year.name.
+      replace(/[a-z]/, x => x.toUpperCase()).
+      replace(/_./g, x => " " + x[1].toUpperCase()).
+      replace(/[0-9]+/, x => x + ":"),
+    solution.replace(/[^+,\-\.<>\[\]]/g, "").length,
+  );
 }
