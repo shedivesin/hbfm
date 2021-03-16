@@ -153,7 +153,7 @@ play(
     const x = shuffle(NUMBER + LETTER, 3).join("");
     return [x, x];
   },
-  ",.,.,.",
+  ",[.,]",
 );
 
 play(
@@ -168,7 +168,7 @@ play(
 play(
   "Year 03: Copy Floor",
   () => ["", LETTER],
-  "+++++++++++++[>++>+++++<<-]>[>.+<-]",
+  ">+[[<+>>++<-]>]<<++[<+.>-----]",
 );
 
 play(
