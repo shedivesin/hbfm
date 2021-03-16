@@ -10,14 +10,12 @@ function brainfuck(code, input) {
   for(let c = 0; c < code.length; c++) {
     switch(code[c]) {
       case "+":
-        if(data[p] === 255) { throw new Error("Data overflow"); }
         ++data[p];
         break;
       case ",":
         data[p] = input.charCodeAt(i++);
         break;
       case "-":
-        if(data[p] === 0) { throw new Error("Data underflow"); }
         --data[p];
         break;
       case ".":
@@ -291,6 +289,8 @@ play(
 
     return [merge(eq, ne), y];
   },
+  // FIXME: can we do better?
+  ",[[>+>+<<-],[>-<-]>[>[-]<[-]]>[.[-]]<<,]",
 );
 
 play(
