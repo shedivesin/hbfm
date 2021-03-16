@@ -1,7 +1,8 @@
 "use strict";
 
 function brainfuck(code, input) {
-  const data = new Uint8Array(30000);
+  const data = [0];
+  let portable = true;
   let output = "";
   let p = 0;
   let i = 0;
@@ -10,23 +11,26 @@ function brainfuck(code, input) {
   for(let c = 0; c < code.length; c++) {
     switch(code[c]) {
       case "+":
-        ++data[p];
+        if(data[p] === 255) { portable = false; }
+        data[p] = (data[p] + 1) & 255;
         break;
       case ",":
         data[p] = input.charCodeAt(i++);
         break;
       case "-":
-        --data[p];
+        if(data[p] === 0) { portable = false; }
+        data[p] = (data[p] - 1) & 255;
         break;
       case ".":
         output += String.fromCharCode(data[p]);
         break;
       case "<":
-        if(p === 0) { throw new Error("Pointer underflow"); }
+        if(p === 0) { portable = false; data.unshift(0); ++p; }
         --p;
         break;
       case ">":
-        if(p === data.length - 1) { throw new Error("Pointer overflow"); }
+        if(p === 29999) { portable = false; }
+        if(p === data.length - 1) { data.push(0); }
         ++p;
         break;
       case "[":
@@ -50,56 +54,62 @@ function brainfuck(code, input) {
     }
 
     if(++t === 0x1000000) {
-      throw new Error("Program ran for too many steps");
+      throw new Error("Ran for too many steps");
     }
   }
 
-  return output;
+  return [output, t, portable];
 }
 
-function play(name, generator, solution) {
+function play(name, generator, ...solutions) {
+  console.log("\n# %s", name);
   if(generator === undefined) {
-    console.warn("%s NOT YET DEFINED!", name);
     return;
   }
 
   const [input, expected] = generator();
-  if(solution === undefined) {
-    console.warn(
-      "%s NOT YET SOLVED!\n  Input: %j\n  Expected: %j",
-      name,
-      input,
-      expected,
-    );
+  if(solutions.length === 0) {
+    console.log("    Input: %s\n    Expected: %s", input, expected);
     return;
   }
 
-  try {
-    const actual = brainfuck(solution, input);
-    if(actual !== expected) {
-      console.warn(
-        "%s FAILED: Output did not match expectation!\n  Input: %j\n  Expected: %j\n  Actual: %j",
-        name,
-        input,
-        expected,
-        actual,
+  for(let i = 0; i < solutions.length; i++) {
+    const solution = solutions[i];
+    const length = solution.replace(/[^+,\-\.<>\[\]]+/g, "").length;
+
+    try {
+      const [actual, steps, portable] = brainfuck(solution, input);
+      if(actual !== expected) {
+        console.log(
+          "%s %d/%d%s FAILED: Output did not match!\n        Input: %s\n        Expected: %s\n        Actual: %s",
+          ((i + 1) + ".").padEnd(3),
+          length,
+          steps,
+          portable? "◊": "",
+          input,
+          expected,
+          actual,
+        );
+        continue;
+      }
+
+      console.log(
+        "%s %d/%d%s OK",
+        ((i + 1) + ".").padEnd(3),
+        length,
+        steps,
+        portable? "◊": "",
       );
-      return;
+    }
+
+    catch(err) {
+      console.log(
+        "%s FAILED: %s!",
+        ((i + 1) + ".").padEnd(3),
+        err.message,
+      );
     }
   }
-  catch(err) {
-    console.warn(
-      "%s FAILED: %s!",
-      name,
-      err.message,
-    );
-    return;
-  }
-
-  console.log(
-    "%s OK!",
-    name,
-  );
 }
 
 
@@ -153,6 +163,7 @@ play(
     const x = shuffle(NUMBER + LETTER, 3).join("");
     return [x, x];
   },
+  ",.,.,.",
   ",[.,]",
 );
 
@@ -168,7 +179,8 @@ play(
 play(
   "Year 03: Copy Floor",
   () => ["", LETTER],
-  ">+[[<+>>++<-]>]<<++[<+.>-----]",
+  "+++++++++++++[>++>+++++<<-]>[>.+<-]",
+  "+[[<+>>++<-]>]<<++[<+.>-----]",
 );
 
 play(
