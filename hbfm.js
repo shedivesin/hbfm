@@ -62,7 +62,7 @@ function brainfuck(code, input) {
 }
 
 function play(name, generator, ...solutions) {
-  console.log("\n# %s", name);
+  console.log("\n## %s", name);
   if(generator === undefined) {
     return;
   }
@@ -156,7 +156,9 @@ function numbers(min, max, n) {
   }
   return shuffle(set);
 }
-  
+
+console.log("# Human Brainfuck Machine");
+
 play(
   "Year 01: Mail Room",
   () => {
@@ -179,6 +181,7 @@ play(
 play(
   "Year 03: Copy Floor",
   () => ["", LETTER],
+  "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.",
   "+++++++++++++[>++>+++++<<-]>[>.+<-]",
   "+[[<+>>++<-]>]<<++[<+.>-----]",
 );
@@ -301,6 +304,7 @@ play(
 
     return [merge(eq, ne), y];
   },
+  // FIXME: my equality check isn't portable
   // FIXME: can we do better?
   ",[[>+>+<<-],[>-<-]>[>[-]<[-]]>[.[-]]<<,]",
 );
@@ -351,6 +355,18 @@ play(
 
 play(
   "Year 28: Three Sort",
+  () => {
+    const n = random(3, 8);
+    let x = "";
+    let y = "";
+    for(let i = 0; i < n; i++) {
+      const source = (random(0, 35) < 10)? NUMBER: LETTER;
+      const batch = shuffle(source, 3);
+      x += batch.join("");
+      y += batch.sort().join("");
+    }
+    return [x, y];
+  },
 );
 
 play(
@@ -410,4 +426,10 @@ play(
 
 play(
   "Year 41: Sorting Floor",
+  () => {
+    const letters = shuffle(LETTER, random(8, 24));
+    const x = letters.join("");
+    const y = letters.sort().join("");
+    return [x, y];
+  },
 );
