@@ -427,9 +427,10 @@ play(
 play(
   "Year 41: Sorting Floor",
   () => {
-    const letters = shuffle(LETTER, random(8, 24));
+    const letters = shuffle(LETTER + LETTER, random(8, 24));
     const x = letters.join("");
     const y = letters.sort().join("");
     return [x, y];
   },
+  ">>,[>>,]<<[[-<+<]>[>[>>]<[.[-]<[[>>+<<-]<]>>]>]<<]", // selection sort
 );
