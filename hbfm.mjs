@@ -1,5 +1,3 @@
-"use strict";
-
 function brainfuck(code, input) {
   const data = [0];
   let portable = true;
@@ -61,6 +59,7 @@ function brainfuck(code, input) {
   return [output, t, portable];
 }
 
+// FIXME: Generate the input/output 100 times and make sure it works each time.
 function play(name, generator, ...solutions) {
   console.log("\n## %s", name);
   if(generator === undefined) {
