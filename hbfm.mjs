@@ -95,7 +95,7 @@ function play(name, instructions, generator, ...solutions) {
         ((i + 1) + ".").padEnd(3),
         length,
         steps,
-        portable? "\x1B[1;32mGOOD\x1B[0m": "\x1B[1;33mOK\x1B[0m",
+        portable? "\x1B[1;32mEXCELLENT\x1B[0m": "\x1B[1;33mGOOD\x1B[0m",
       );
     }
 
