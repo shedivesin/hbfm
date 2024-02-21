@@ -59,7 +59,7 @@ function brainfuck(source, input) {
   return {source, input, output, steps, portable};
 }
 
-// FIXME: Generate the input/output 100 times and make sure it works each time.
+// FIXME: Switch from procedurally generated input to a list of baked solutions.
 function play(name, instructions, generator, ...solutions) {
   console.log("\n## %s", name);
   if(instructions) { console.log("%s", instructions); }
@@ -79,11 +79,10 @@ function play(name, instructions, generator, ...solutions) {
       const {output, steps, portable} = brainfuck(solution, input);
       if(output !== expected) {
         console.log(
-          "%s %d/%d%s FAILED: Output did not match!\n        Input: %s\n        Expected: %s\n        Actual: %s",
+          "%s %d/%d \x1B[1;31mFAIL\x1B[0m: Output did not match!\n        Input: %s\n        Expected: %s\n        Actual: %s",
           ((i + 1) + ".").padEnd(3),
           length,
           steps,
-          portable? "◊": "",
           input,
           expected,
           output,
@@ -92,11 +91,11 @@ function play(name, instructions, generator, ...solutions) {
       }
 
       console.log(
-        "%s %d/%d%s OK",
+        "%s %d/%d %s",
         ((i + 1) + ".").padEnd(3),
         length,
         steps,
-        portable? "◊": "",
+        portable? "\x1B[1;32mGOOD\x1B[0m": "\x1B[1;33mOK\x1B[0m",
       );
     }
 
@@ -235,7 +234,7 @@ play(
 
 play(
   "Year 08: Tripler Room",
-  "For each input ASCII digit, triple it and output the result as two ASCII digts.",
+  "For each input ASCII digit, triple it and output the result as two ASCII digits.",
   () => {
     const n = random(4, 10);
     const ns = numbers(0, 9, n);
