@@ -1,49 +1,50 @@
-function brainfuck(code, input) {
-  const data = [0];
+function brainfuck(source, input) {
+  const n = source.length;
+  const tape = [0];
   let portable = true;
   let output = "";
-  let p = 0;
-  let i = 0;
+  let steps = 0;
   let t = 0;
+  let i = 0;
 
-  for(let c = 0; c < code.length; c++) {
-    switch(code[c]) {
+  for(let s = 0; s < n; s++) {
+    switch(source[s]) {
       case "+":
-        if(data[p] === 255) { portable = false; }
-        data[p] = (data[p] + 1) & 255;
+        if(tape[t] === 255) { portable = false; }
+        tape[t] = (tape[t] + 1) & 255;
         break;
       case ",":
-        data[p] = input.charCodeAt(i++) & 255;
+        tape[t] = input.charCodeAt(i++) & 255;
         break;
       case "-":
-        if(data[p] === 0) { portable = false; }
-        data[p] = (data[p] - 1) & 255;
+        if(tape[t] === 0) { portable = false; }
+        tape[t] = (tape[t] - 1) & 255;
         break;
       case ".":
-        output += String.fromCharCode(data[p]);
+        output += String.fromCharCode(tape[t]);
         break;
       case "<":
-        if(p === 0) { portable = false; data.unshift(0); p++; }
-        --p;
+        if(t === 0) { portable = false; tape.unshift(0); t++; }
+        t--;
         break;
       case ">":
-        if(p === 29999) { portable = false; }
-        if(p === data.length - 1) { data.push(0); }
-        p++;
+        if(t === 29999) { portable = false; }
+        if(t === tape.length - 1) { tape.push(0); }
+        t++;
         break;
       case "[":
-        if(!data[p]) {
-          for(let l = 1; l; l -= (code[c] === "]") - (code[c] === "[")) {
-            if(c === code.length - 1) { throw new Error("Unmatched left brace"); }
-            c++;
+        if(!tape[t]) {
+          for(let l = 1; l; l -= (source[s] === "]") - (source[s] === "[")) {
+            if(s === n - 1) { throw new Error("Unmatched left brace"); }
+            s++;
           }
         }
         break;
       case "]":
-        if(data[p]) {
-          for(let l = 1; l; l += (code[c] === "]") - (code[c] === "[")) {
-            if(c === 0) { throw new Error("Unmatched right brace"); }
-            --c;
+        if(tape[t]) {
+          for(let l = 1; l; l += (source[s] === "]") - (source[s] === "[")) {
+            if(s === 0) { throw new Error("Unmatched right brace"); }
+            s--;
           }
         }
         break;
@@ -51,24 +52,18 @@ function brainfuck(code, input) {
         continue;
     }
 
-    if(t === 0xFFFFFF) {
-      throw new Error("Ran for too many steps");
-    }
-    t++;
+    if(steps === 0xFFFFFF) { throw new Error("Ran for too many steps"); }
+    steps++;
   }
 
-  return [output, t, portable];
+  return {source, input, output, steps, portable};
 }
 
 // FIXME: Generate the input/output 100 times and make sure it works each time.
 function play(name, instructions, generator, ...solutions) {
   console.log("\n## %s", name);
-  if(instructions) {
-    console.log("%s", instructions);
-  }
-  if(generator === undefined) {
-    return;
-  }
+  if(instructions) { console.log("%s", instructions); }
+  if(generator === undefined) { return; }
 
   const [input, expected] = generator();
   if(solutions.length === 0) {
@@ -81,8 +76,8 @@ function play(name, instructions, generator, ...solutions) {
     const length = solution.replace(/[^+,\-\.<>\[\]]+/g, "").length;
 
     try {
-      const [actual, steps, portable] = brainfuck(solution, input);
-      if(actual !== expected) {
+      const {output, steps, portable} = brainfuck(solution, input);
+      if(output !== expected) {
         console.log(
           "%s %d/%d%s FAILED: Output did not match!\n        Input: %s\n        Expected: %s\n        Actual: %s",
           ((i + 1) + ".").padEnd(3),
@@ -91,7 +86,7 @@ function play(name, instructions, generator, ...solutions) {
           portable? "◊": "",
           input,
           expected,
-          actual,
+          output,
         );
         continue;
       }
