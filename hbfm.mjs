@@ -1,9 +1,9 @@
 function brainfuck(source, input) {
   const n = source.length;
   const tape = [0];
-  let portable = true;
   let output = "";
   let steps = 0;
+  let portable = true;
   let t = 0;
   let i = 0;
 
