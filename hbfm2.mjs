@@ -171,6 +171,16 @@ play(
 );
 
 play(
+  "Year 8: Tripler Room",
+  "For each input ASCII digit, triple it and output the result as two ASCII digits.",
+  [
+    ["9320", "27090600"],
+    ["79165", "2127031815"],
+    ["0248519376", "00061224150327092118"],
+  ],
+);
+
+play(
   "Year 9: Zero Preservation Initiative",
   "Copy only ASCII zeroes from the input to the output.",
   [
@@ -180,4 +190,13 @@ play(
   ],
   ",[------------------------------------------------>+<[>-<[-]],]++++++++++++++++++++++++++++++++++++++++++++++++>[-<.>]",
   "++++++[->++++++++<],[>[<->->+<]+<[>-<[-]]>[>.<-],]",
+);
+
+play(
+  "Year 10: Octoplier Suite",
+  "For each input ASCII two-digit number, multiply it by eight and output the result as three ASCII digits.",
+  [
+    ["13009948", "104000792384"],
+    ["0030913999697805", "000240728312792552624040"],
+  ],
 );
