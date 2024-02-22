@@ -56,7 +56,7 @@ function brainfuck(source, input) {
     steps++;
   }
 
-  return {source, input, output, steps, portable};
+  return {source, input, output, steps, cells: tape.length, portable};
 }
 
 function play(name, instructions, runs, ...sources) {
@@ -66,16 +66,18 @@ function play(name, instructions, runs, ...sources) {
     const source = sources[i];
     const size = source.match(/[\+\-\[\]\.\,<>]/g).length;
     let speed = 0;
+    let max_cells = 0;
     let all_portable = true;
 
     try {
       for(let j = 0; j < runs.length; j++) {
         const [input, expected] = runs[j];
-        const {output, steps, portable} = brainfuck(source, input);
+        const {output, steps, cells, portable} = brainfuck(source, input);
         if(output !== expected) {
           throw new Error("Wrong output: " + JSON.stringify(output) + " != " + JSON.stringify(expected));
         }
         speed += steps;
+        if(cells > max_cells) { max_cells = cells; }
         all_portable &&= portable;
       }
     }
@@ -90,11 +92,12 @@ function play(name, instructions, runs, ...sources) {
 
     speed /= runs.length;
     console.log(
-      "%d.  %s %d/%s",
+      "%d.  %s %d/%s/%d",
       i + 1,
       all_portable? "GOOD": "OK  ",
       size,
       speed.toFixed(1),
+      max_cells,
     );
   }
 }
@@ -175,6 +178,6 @@ play(
     ["80GSD60000", "00000"],
     ["0DJ0GK5W0040A000", "00000000"],
   ],
-  ",[>+<------------------------------------------------[>-<[-]],]++++++++++++++++++++++++++++++++++++++++++++++++>[<.>-]",
+  ",[------------------------------------------------>+<[>-<[-]],]++++++++++++++++++++++++++++++++++++++++++++++++>[-<.>]",
   "++++++[->++++++++<],[>[<->->+<]+<[>-<[-]]>[>.<-],]",
 );
