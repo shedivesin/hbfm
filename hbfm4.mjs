@@ -2,19 +2,6 @@ import {brainfuck} from "./brainfuck.mjs";
 import {leaderboard} from "./leaderboard.mjs";
 import {uint32, range, range_array} from "./random.mjs";
 
-function merge(a, b) {
-  const c = [];
-  let i = 0;
-  let j = 0;
-  while(i < a.length && j < b.length) {
-    if(uint32() & 1) { c.push(a[i++]); }
-    else { c.push(b[j++]); }
-  }
-  while(i < a.length) { c.push(a[i++]); }
-  while(j < b.length) { c.push(b[j++]); }
-  return c;
-}
-
 console.log("# Human Brainfuck Machine Leaderboards");
 
 leaderboard(
@@ -98,10 +85,12 @@ leaderboard(
   10,
   () => {
     const n = range(3, 20);
-    const m = range(0, n);
-    const x = range_array(m, 1, 99);
-    const y = new Array(n - m).fill(1);
-    return [merge(x, y), x];
+    const r = uint32();
+    const x = new Array(n);
+    for(let i = 0; i < n; i++) { x[i] = ((r >> i) & 1)? range(2, 99): 1; }
+
+    const y = x.filter(x => x !== 1);
+    return [x, y];
   },
   [
     [",[-[+.[-]],]", "@sdi"],
@@ -135,10 +124,12 @@ leaderboard(
   10,
   () => {
     const n = range(3, 20);
-    const m = range(0, n);
-    const x = range_array(m, 1, 99);
-    const y = new Array(n - m).fill(1);
-    return [merge(x, y), y];
+    const r = uint32();
+    const x = new Array(n);
+    for(let i = 0; i < n; i++) { x[i] = ((r >> i) & 1)? range(2, 99): 1; }
+
+    const y = x.filter(x => x === 1);
+    return [x, y];
   },
   [
     [",[->+<[>-<[-]],]+>[-<.>]", "@sdi"],
@@ -150,9 +141,27 @@ leaderboard(
 // FIXME: Omitted for being too similar to years 8 and 12. Is there an
 // interesting variation we could do, instead?
 
-// Year 11: Sub Hallway
-// For each pair of inputs, output their absolute difference.
-// FIXME
+leaderboard(
+  "Year 11: Sub Hallway",
+  // For each pair of inputs, output their absolute difference.
+  10,
+  () => {
+    const n = range(3, 10);
+    const x = new Array(n * 2);
+    const y = new Array(n);
+    for(let i = 0; i < n; i++) {
+      const a = range(1, 99);
+      let b = range(1, 98);
+      if(b >= a) { b++; }
+      x[i * 2 + 0] = a;
+      x[i * 2 + 1] = b;
+      y[i] = Math.abs(a - b);
+    }
+    return [x, y];
+  },
+  [
+  ],
+);
 
 leaderboard(
   "Year 12: Tetracontiplier",
