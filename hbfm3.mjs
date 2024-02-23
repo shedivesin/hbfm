@@ -166,7 +166,10 @@ play(
     [[1, 9, 8, 1, 6, 2, 5, 7, 1, 3, 4, 1, 4, 1, 1, 1], [9, 8, 6, 2, 5, 7, 3, 4, 4]],
   ],
   [
-    ",[-[+.[-]],]",
+    ",[-[+.[-]],]", // clear cell for reuse
+    ",[-[+.>],]", // waste tape to avoid clear loop
+    "+>>,[-[+.<]<[>]>,]", // use a sentinel cell to avoid clear loop
+    ">,[-[+.>]+[-<]>,]", // use a sentinel cell to avoid clear loop
   ],
 );
 
@@ -179,8 +182,8 @@ play(
     [[97, 52, 35, 26, 48, 4], [291, 156, 105, 78, 144, 12]],
   ],
   [
-    ",[[->+++<]>.[-]<,]",
-    ",[[->+++<]>.,]",
+    ",[[->+++<]>.[-]<,]", // clear cell for reuse
+    ",[[->+++<]>.,]", // waste tape to avoid clear loop
   ],
 );
 
