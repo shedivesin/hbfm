@@ -1,6 +1,6 @@
 import {brainfuck} from "./brainfuck.mjs";
 import {leaderboard} from "./leaderboard.mjs";
-import {uint32, range, range_array} from "./random.mjs";
+import {uint32, range, range_ne, range_array} from "./random.mjs";
 
 console.log("# Human Brainfuck Machine Leaderboards");
 
@@ -80,8 +80,6 @@ leaderboard(
   // Copy the input, except ones, to the output.
   // NB: HRM exterminates zeroes rather than ones, but we can't do that in
   // Brainfuck since zero is the end-of-input marker.
-  // TODO: A challenge version of this would be to exclude a higher number,
-  // like seven, since one must watch out for underflows.
   10,
   () => {
     const n = range(3, 20);
@@ -119,8 +117,6 @@ leaderboard(
   "Year 9: Zero Preservation Initiative",
   // NB: HRM exterminates zeroes rather than ones, but we can't do that in
   // Brainfuck since zero is the end-of-input marker.
-  // TODO: A challenge version of this would be to preserve a higher number,
-  // like seven, since one must watch out for underflows.
   10,
   () => {
     const n = range(3, 20);
@@ -151,8 +147,7 @@ leaderboard(
     const y = new Array(n);
     for(let i = 0; i < n; i++) {
       const a = range(1, 99);
-      let b = range(1, 98);
-      if(b >= a) { b++; }
+      const b = range_ne(1, 99, a);
       x[i * 2 + 0] = a;
       x[i * 2 + 1] = b;
       y[i] = Math.abs(a - b);
@@ -179,3 +174,56 @@ leaderboard(
     [",[[->++++++++++++++++++++++++++++++++++++++++<]>.,]", "@sdi"],
   ],
 );
+
+leaderboard(
+  "Year 13: Equalization Room",
+  // For each pair of inputs, if they are equal, output one of them.
+  () => {
+    const n = range(3, 10);
+    const r = uint32();
+    const x = new Array(n * 2);
+    const y = [];
+    for(let i = 0; i < n; i++) {
+      const a = range(1, 99);
+      x[i * 2 + 0] = a;
+
+      if((r >> i) & 1) {
+        x[i * 2 + 1] = a;
+        y.push(a);
+      }
+      else {
+        x[i * 2 + 1] = range_ne(1, 99, a);
+      }
+    }
+
+    return [x, y];
+  },
+  [
+  ],
+);
+
+// Year 14: Maximation Room
+// For each pair of inputs, output the larger of the two. (If they're equal,
+// just output one of them.)
+// FIXME
+
+// Year 16: Absolute Positivity
+// FIXME: Omitted since we aren't working with negative numbers. Is there an
+// interesting variation we could do, instead?
+
+// Year 17: Exclusive Lounge
+// For each pair of inputs, output a 1 if they have the same parity (e.g. are
+// both even or odd), or a 2 if they have the opposite parity.
+// NB: HRM uses sign bit, but we don't have negative numbers, so we use the
+// parity bit, instead.
+// NB: It would be nicer to output 0 or 1 (e.g. the XOR of the parity bit), but
+// we can't do that in Brainfuck since zero is the end-of-output marker.
+// FIXME
+
+// Year 19: Countdown
+// For each input, output it followed by each number down to zero.
+// FIXME
+
+// Year 20: Multiplication Workshop
+// For each pair of inputs, output their product.
+// FIXME
