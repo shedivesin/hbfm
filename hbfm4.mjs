@@ -139,7 +139,8 @@ leaderboard(
 
 leaderboard(
   "Year 11: Sub Hallway",
-  // For each pair of inputs, output their absolute difference.
+  // For each pair of inputs, output their absolute difference. (These inputs
+  // will never be identical.)
   10,
   () => {
     const n = range(3, 10);
@@ -178,6 +179,7 @@ leaderboard(
 leaderboard(
   "Year 13: Equalization Room",
   // For each pair of inputs, if they are equal, output one of them.
+  10,
   () => {
     const n = range(3, 10);
     const r = uint32();
@@ -220,10 +222,38 @@ leaderboard(
 // we can't do that in Brainfuck since zero is the end-of-output marker.
 // FIXME
 
-// Year 19: Countdown
-// For each input, output it followed by each number down to zero.
-// FIXME
+leaderboard(
+  "Year 19: Countdown",
+  // For each input, output it followed by each number down to one.
+  10,
+  () => {
+    const n = range(3, 20);
+    const x = range_array(n, 1, 20);
+    const y = [];
+    for(let i = 0; i < n; i++) { for(let j = x[i]; j > 0; j--) { y.push(j); } }
+
+    return [x, y];
+  },
+  [
+    [",[[.-],]", "@sdi"],
+  ],
+);
 
 // Year 20: Multiplication Workshop
 // For each pair of inputs, output their product.
-// FIXME
+leaderboard(
+  "Year 20: Multiplication Workshop",
+  // For each pair of inputs, output their product.
+  10,
+  () => {
+    const n = range(3, 10);
+    const x = range_array(n * 2, 1, 20);
+    const y = new Array(n);
+    for(let i = 0; i < n; i++) { y[i] = x[i * 2 + 0] * x[i * 2 + 1]; }
+
+    return [x, y];
+  },
+  [
+    [",[>,<[->[->+>+<<]>[-<+>]<<]>>>.[-]<<<,]", "@sdi"],
+  ],
+);

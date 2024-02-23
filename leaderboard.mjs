@@ -16,6 +16,11 @@ function leaderboard(name, n, generator, solutions) {
   console.log();
   console.log("## %s", name);
 
+  if(!solutions.length) {
+    console.log("\x1B[1;31mNo solutions yet.\x1B[0m");
+    return;
+  }
+
   seed();
 
   const cases = new Array(n);
