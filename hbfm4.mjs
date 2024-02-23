@@ -257,3 +257,86 @@ leaderboard(
     [",[>,<[->[->+>+<<]>[-<+>]<<]>>>.[-]<<<,]", "@sdi"],
   ],
 );
+
+// Year 21: Zero Terminated Sum
+// FIXME
+
+// Year 22: Fibonacci Visitor
+// FIXME
+
+// Year 23: The Littlest Number
+// FIXME
+
+// Year 24: Mod Module
+// FIXME
+
+// Year 25: Cumulative Countdown
+// FIXME
+
+// Year 26: Small Divide
+// FIXME
+
+// Year 28: Three Sort
+// For each triplet of inputs, output them in sorted order.
+// FIXME
+
+// Year 29: Storage Floor
+// FIXME
+
+// Year 30: String Storage Floor
+// FIXME
+
+leaderboard(
+  "Year 31: String Reverse",
+  // Output the bytes of the input in reverse order.
+  10,
+  () => {
+    const n = range(3, 20);
+    const x = range_array(n, 1, 99);
+    const y = x.slice().reverse();
+    return [x, y];
+  },
+  [
+    [">,[>,]<[.<]", "@sdi"],
+  ],
+);
+
+// Year 32: Inventory Report
+// FIXME
+
+// Year 34: Vowel Incinerator
+// FIXME
+
+// Year 35: Duplicate Removal
+// FIXME
+
+// Year 36: Alphabetizer
+// FIXME
+
+// Year 37: Scavenger Chain
+// FIXME
+
+// Year 38: Digit Exploder
+// FIXME
+
+// Year 39: Re-Coordinator
+// FIXME
+
+// Year 40: Prime Factory
+// FIXME
+
+leaderboard(
+  "Year 41: Sorting Floor",
+  // Output the input in sorted order.
+  10,
+  () => {
+    const n = range(3, 20);
+    const x = range_array(n, 1, 99);
+    const y = x.slice().sort((a, b) => a - b);
+    return [x, y];
+  },
+  [
+    [">>,[>>,]<<[[-<+<]>[>[>>]<[.[-]<[[>>+<<-]<]>>]>]<<]", "@sdi"],
+  ],
+);
+
