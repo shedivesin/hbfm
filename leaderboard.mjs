@@ -60,14 +60,14 @@ function leaderboard(name, n, generator, solutions) {
     min_steps = Math.min(min_steps, steps);
   }
 
-  console.log("|id|entrant       |size|tape|   speed|");
-  console.log("|--|--------------|----|----|--------|");
+  console.log("|id|entrant             |size|tape|   speed|");
+  console.log("|--|--------------------|----|----|--------|");
   for(let i = 0; i < successes.length; i++) {
     const {name, size, tape, steps} = successes[i];
     console.log(
       "|%s|%s|%s|%s|%s|",
       (i + 1).toString().padStart(2),
-      name.padEnd(14),
+      name.padEnd(20),
       highlight(size.toString().padStart(4), size === min_size),
       highlight(tape.toString().padStart(4), tape === min_tape),
       highlight(steps.toString().padStart(8), steps === min_steps),

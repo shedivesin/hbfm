@@ -13,8 +13,10 @@ leaderboard(
     return [x, x];
   },
   [
+    // Naive solution.
     [",.,.,.", "@sdi"],
-    [",[.,]", "@sdi"],
+    // https://esolangs.org/wiki/brainfuck#Cat
+    [",[.,]", "folklore"],
   ],
 );
 
@@ -28,7 +30,8 @@ leaderboard(
     return [x, x];
   },
   [
-    [",[.,]", "@sdi"],
+    // https://esolangs.org/wiki/brainfuck#Cat
+    [",[.,]", "folklore"],
   ],
 );
 
@@ -38,6 +41,7 @@ leaderboard(
   1,
   () => [[], [66, 85, 71]],
   [
+    // Naive solution.
     ["++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.+++++++++++++++++++.--------------.", "@sdi"],
     ["++++++[->+++++++++++>+<<]+>.+>[-<<+>+++>]<.<[->--<]>.", "@sdi"],
   ],
@@ -55,6 +59,7 @@ leaderboard(
     return [x, y];
   },
   [
+    // Naive solution.
     [",[>,.<.,]", "@sdi"],
   ],
 );
@@ -71,6 +76,7 @@ leaderboard(
     return [x, y];
   },
   [
+    // Naive solution.
     [",[>,[-<+>]<.,]", "@sdi"],
   ],
 );
@@ -91,7 +97,9 @@ leaderboard(
     return [x, y];
   },
   [
+    // Naive solution.
     [",[-[+.[-]],]", "@sdi"],
+    // Evil optimization of the above which wastes tape to avoid a clear loop.
     [",[-[+.>],]", "@sdi"],
   ],
 );
@@ -108,7 +116,9 @@ leaderboard(
     return [x, y];
   },
   [
+    // Naive solution.
     [",[[->+++<]>.[-]<,]", "@sdi"],
+    // Evil optimization of the above which wastes tape to avoid a clear loop.
     [",[[->+++<]>.,]", "@sdi"],
   ],
 );
@@ -297,6 +307,7 @@ leaderboard(
     return [x, y];
   },
   [
+    // Naive solution.
     [">,[>,]<[.<]", "@sdi"],
   ],
 );
@@ -336,7 +347,10 @@ leaderboard(
     return [x, y];
   },
   [
-    [">>,[>>,]<<[[-<+<]>[>[>>]<[.[-]<[[>>+<<-]<]>>]>]<<]", "@sdi"],
+    // http://brainfuck.org/results2.txt
+    // DBC calls this a selection sort, but to be honest, it's really much more
+    // like a sleepsort if you ask me. In any case, it's shockingly concise.
+    [">>,[>>,]<<[[-<+<]>[>[>>]<[.[-]<[[>>+<<-]<]>>]>]<<]", "Daniel B. Cristofani"],
   ],
 );
 
