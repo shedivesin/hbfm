@@ -95,8 +95,7 @@ leaderboard(
     const x = new Array(n);
     for(let i = 0; i < n; i++) { x[i] = ((r >> i) & 1)? range(2, 99): 1; }
 
-    const y = x.filter(x => x !== 1);
-    return [x, y];
+    return [x, x.filter(x => x !== 1)];
   },
   [
     // Naive solution.
@@ -113,10 +112,7 @@ leaderboard(
   () => {
     const n = range(3, 20);
     const x = range_array(n, 1, 99);
-    const y = new Array(n);
-    for(let i = 0; i < n; i++) { y[i] = x[i] * 3; }
-
-    return [x, y];
+    return [x, x.map(x => x * 3)];
   },
   [
     // Naive solution.
@@ -137,8 +133,7 @@ leaderboard(
     const x = new Array(n);
     for(let i = 0; i < n; i++) { x[i] = ((r >> i) & 1)? range(2, 99): 1; }
 
-    const y = x.filter(x => x === 1);
-    return [x, y];
+    return [x, x.filter(x => x === 1)];
   },
   [
     [",[->+<[>-<[-]],]+>[-<.>]", "@sdi"],
@@ -181,10 +176,7 @@ leaderboard(
   () => {
     const n = range(3, 20);
     const x = range_array(n, 1, 99);
-    const y = new Array(n);
-    for(let i = 0; i < n; i++) { y[i] = x[i] * 40; }
-
-    return [x, y];
+    return [x, x.map(x => x * 40)];
   },
   [
     [",[[->+++++<]>[-<++++++++>]<.,]", "@sdi"],
@@ -462,14 +454,55 @@ leaderboard(
 // Year 37: Scavenger Chain
 // FIXME
 
-// Year 38: Digit Exploder
-// FIXME
+leaderboard(
+  "Year 38: Digit Exploder",
+  // For each input, output its digits.
+  10,
+  () => {
+    const n = range(3, 10);
+    const r = uint32();
+    const x = new Array(n);
+    for(let i = 0; i < n; i++) {
+      const a = (r >> (i * 2 + 0)) & 1;
+      const b = (r >> (i * 2 + 1)) & 1;
+      const d = 1 + a + b; // 25% 1 digit, 50% 2 digits, 25% 3 digits.
+      x[i] = range(Math.pow(10, d - 1), Math.pow(10, d) - 1);
+    }
+
+    const y = [];
+    for(let i = 0; i < n; i++) { y.push(...Array.from(x[i].toString(), x => +x)); }
+
+    return [x, y];
+  },
+  [
+  ],
+);
 
 // Year 39: Re-Coordinator
 // FIXME
 
-// Year 40: Prime Factory
-// FIXME
+leaderboard(
+  "Year 40: Prime Factory",
+  // For each input, output its prime factors in sorted order.
+  10,
+  () => {
+    const n = range(3, 10);
+    const x = range_array(n, 2, 99);
+    const y = [];
+    for(let i = 0; i < n; i++) {
+      for(let t = x[i], p = 2; t > 1; p++) {
+        while(t % p === 0) {
+          t /= p;
+          y.push(p);
+        }
+      }
+    }
+
+    return [x, y];
+  },
+  [
+  ],
+);
 
 leaderboard(
   "Year 41: Sorting Floor",
