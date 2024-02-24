@@ -1,8 +1,8 @@
 import {brainfuck} from "./brainfuck.mjs";
-import {leaderboard} from "./leaderboard.mjs";
+import {header, leaderboard} from "./leaderboard.mjs";
 import {uint32, range, range_ne, range_array} from "./random.mjs";
 
-console.log("# Human Brainfuck Machine Leaderboards");
+header("Human Brainfuck Machine Leaderboards");
 
 leaderboard(
   "Year 1: Mail Room",
@@ -56,6 +56,7 @@ leaderboard(
     const x = range_array(n, 1, 99);
     const y = new Array(n);
     for(let i = 0; i < n; i++) { y[i] = x[i ^ 1]; }
+
     return [x, y];
   },
   [
@@ -73,6 +74,7 @@ leaderboard(
     const x = range_array(n * 2, 1, 99);
     const y = new Array(n);
     for(let i = 0; i < n; i++) { y[i] = x[i * 2 + 0] + x[i * 2 + 1]; }
+
     return [x, y];
   },
   [
@@ -113,6 +115,7 @@ leaderboard(
     const x = range_array(n, 1, 99);
     const y = new Array(n);
     for(let i = 0; i < n; i++) { y[i] = x[i] * 3; }
+
     return [x, y];
   },
   [
@@ -151,6 +154,7 @@ leaderboard(
   "Year 11: Sub Hallway",
   // For each pair of inputs, output their absolute difference. (These inputs
   // will never be identical.)
+  // NB: HRM outputs a-b then b-a, but we don't have negative numbers.
   10,
   () => {
     const n = range(3, 10);
@@ -163,6 +167,7 @@ leaderboard(
       x[i * 2 + 1] = b;
       y[i] = Math.abs(a - b);
     }
+
     return [x, y];
   },
   [
@@ -178,6 +183,7 @@ leaderboard(
     const x = range_array(n, 1, 99);
     const y = new Array(n);
     for(let i = 0; i < n; i++) { y[i] = x[i] * 40; }
+
     return [x, y];
   },
   [
@@ -214,23 +220,50 @@ leaderboard(
   ],
 );
 
-// Year 14: Maximation Room
-// For each pair of inputs, output the larger of the two. (If they're equal,
-// just output one of them.)
-// FIXME
+leaderboard(
+  "Year 14: Maximation Room",
+  // For each pair of inputs, output the larger of the two. (If they're equal,
+  // just output one of them.)
+  10,
+  () => {
+    const n = range(3, 10);
+    const x = range_array(n * 2, 1, 99);
+    const y = new Array(n);
+    for(let i = 0; i < n; i++) { y[i] = Math.max(x[i * 2 + 0], x[i * 2 + 1]); }
+
+    return [x, y];
+  },
+  [
+  ],
+);
 
 // Year 16: Absolute Positivity
 // FIXME: Omitted since we aren't working with negative numbers. Is there an
 // interesting variation we could do, instead?
 
-// Year 17: Exclusive Lounge
-// For each pair of inputs, output a 1 if they have the same parity (e.g. are
-// both even or odd), or a 2 if they have the opposite parity.
-// NB: HRM uses sign bit, but we don't have negative numbers, so we use the
-// parity bit, instead.
-// NB: It would be nicer to output 0 or 1 (e.g. the XOR of the parity bit), but
-// we can't do that in Brainfuck since zero is the end-of-output marker.
-// FIXME
+leaderboard(
+  "Year 17: Exclusive Lounge",
+  // For each pair of inputs, output a 1 if they have the opposite parity (e.g.
+  // one is even and the other is odd), or 2 if they have the same parity.
+  // NB: HRM uses sign bit, but we don't have negative numbers, so we use the
+  // parity bit, instead.
+  // NB: It would be nicer to output 0 or 1 (e.g. the XOR of the parity bit),
+  // but we can't do that in Brainfuck since zero is the end-of-output marker.
+  10,
+  () => {
+    const n = range(3, 10);
+    const x = range_array(n * 2, 1, 99);
+    const y = new Array(n);
+    for(let i = 0; i < n; i++) {
+      y[i] = (x[i * 2 + 0] ^ x[i * 2 + 1]) & 1;
+      if(y[i] === 0) { y[i] += 2; }
+    }
+
+    return [x, y];
+  },
+  [
+  ],
+);
 
 leaderboard(
   "Year 19: Countdown",
@@ -293,17 +326,55 @@ leaderboard(
   ],
 );
 
-// Year 22: Fibonacci Visitor
-// FIXME
+leaderboard(
+  "Year 23: The Littlest Number",
+  // Output the smallest number in the input.
+  // FIXME: HRM uses zero-delimited strings, and expects an output for each.
+  // I'm not sure that adds much to this puzzle, but it's worth considering.
+  10,
+  () => {
+    const n = range(3, 20);
+    const x = range_array(n, 1, 99);
+    const y = [Math.min(...x)];
+    return [x, y];
+  },
+  [
+  ],
+);
 
-// Year 23: The Littlest Number
-// FIXME
+leaderboard(
+  "Year 24: Mod Module",
+  // For each pair of inputs, output the remainder of the first divided by the
+  // second.
+  10,
+  () => {
+    const n = range(3, 10);
+    const x = range_array(n, 1, 99);
+    const y = new Array(n);
+    for(let i = 0; i < n; i++) { y[i] = x[i * 2 + 0] % x[i * 2 + 1]; }
 
-// Year 24: Mod Module
-// FIXME
+    return [x, y];
+  },
+  [
+  ],
+);
 
-// Year 25: Cumulative Countdown
-// FIXME
+leaderboard(
+  "Year 25: Cumulative Countdown",
+  // For each input, output the sum of itself and all numbers down to one;
+  // e.g. if the input is 3, output 3+2+1=6.
+  10,
+  () => {
+    const n = range(3, 20);
+    const x = range_array(n, 1, 99);
+    const y = new Array(n);
+    for(let i = 0; i < n; i++) { y[i] = x[i] * (x[i] + 1) / 2; }
+
+    return [x, y];
+  },
+  [
+  ],
+);
 
 // Year 26: Small Divide
 // FIXME
@@ -373,6 +444,9 @@ leaderboard(
     // DBC calls this a selection sort, but to be honest, it's really much more
     // like a sleepsort if you ask me. In any case, it's shockingly concise.
     [">>,[>>,]<<[[-<+<]>[>[>>]<[.[-]<[[>>+<<-]<]>>]>]<<]", "Daniel B. Cristofani"],
+
+    // https://codegolf.stackexchange.com/a/4764
+    [">,[[-[>>+<<-]>+>]<[<<]>,]+>[>+<-]>[>[>+<<->-]<[<<.>>-]<<[>>+<<-]>>+>>]", "AShelly"],
   ],
 );
 

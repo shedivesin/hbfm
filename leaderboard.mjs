@@ -1,6 +1,10 @@
 import {brainfuck} from "./brainfuck.mjs";
 import {seed} from "./random.mjs";
 
+function header(str) {
+  console.log("# %s", str);
+}
+
 function array_equal(a, b) {
   if(a.length !== b.length) { return false; }
   for(let i = 0; i < a.length; i++) { if(a[i] !== b[i]) { return false; } }
@@ -75,4 +79,4 @@ function leaderboard(name, n, generator, solutions) {
   }
 }
 
-export {leaderboard};
+export {header, leaderboard};
