@@ -376,15 +376,56 @@ leaderboard(
   ],
 );
 
-// Year 26: Small Divide
-// FIXME
+leaderboard(
+  "Year 26: Small Divide",
+  // For each pair of inputs, output the first divided by the second.
+  10,
+  () => {
+    const n = range(3, 10);
+    const x = range_array(n, 1, 99);
+    const y = new Array(n);
+    for(let i = 0; i < n; i++) { y[i] = Math.floor(x[i * 2 + 0] / x[i * 2 + 1]); }
 
-// Year 28: Three Sort
-// For each triplet of inputs, output them in sorted order.
-// FIXME
+    return [x, y];
+  },
+  [
+  ],
+);
 
-// Year 29: Storage Floor
-// FIXME
+leaderboard(
+  "Year 28: Three Sort",
+  // For each triplet of inputs, output them in sorted order.
+  10,
+  () => {
+    const n = range(3, 6) * 3;
+    const x = range_array(n, 1, 99);
+    const y = [];
+    for(let i = 0; i < n; i += 3) { y.push(...x.slice(i, i + 3).sort((a, b) => a - b)); }
+
+    return [x, y];
+  },
+  [
+  ],
+);
+
+leaderboard(
+  "Year 29: Storage Floor",
+  // The first 10 inputs are reference data. For each subsequent input N,
+  // output the Nth referenced input.
+  10,
+  () => {
+    const data = range_array(10, 1, 99);
+
+    const n = range(3, 10);
+    const x = range_array(n, 1, data.length);
+    const y = new Array(n);
+    for(let i = 0; i < n; i++) { y[i] = data[x[i] - 1]; }
+
+    return [data.concat(x), y];
+  },
+  [
+  ],
+);
 
 // Year 30: String Storage Floor
 // FIXME
@@ -409,6 +450,7 @@ leaderboard(
 // FIXME
 
 // Year 34: Vowel Incinerator
+// Output every input, except primes.
 // FIXME
 
 // Year 35: Duplicate Removal
