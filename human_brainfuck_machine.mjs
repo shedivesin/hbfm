@@ -271,6 +271,28 @@ leaderboard(
 // Year 21: Zero Terminated Sum
 // FIXME
 
+leaderboard(
+  "Year 22: Fibonacci Visitor",
+  // For each input N, output the Nth Fibonacci number.
+  // NB: F(1)=1, F(2)=1, F(N)=F(N-2)+F(N-1).
+  // NB: HRM has us output all Fibonacci numbers less than N, but I figure this
+  // variant is a bit more reasonable.
+  10,
+  () => {
+    const f = [1, 1];
+    while(f.length < 20) { f.push(f[f.length - 2] + f[f.length - 1]); }
+
+    const n = range(3, 10);
+    const x = range_array(n, 1, f.length);
+    const y = new Array(n);
+    for(let i = 0; i < n; i++) { y[i] = f[x[i] - 1]; }
+
+    return [x, y];
+  },
+  [
+  ],
+);
+
 // Year 22: Fibonacci Visitor
 // FIXME
 

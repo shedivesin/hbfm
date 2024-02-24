@@ -28,7 +28,7 @@ function leaderboard(name, n, generator, solutions) {
 
   const successes = [];
   for(const [solution, name] of solutions) {
-    const size = solution.match(/[+\-,\.<>\[\]]/g).length;
+    const size = solution.match(/[+\-,\.<>\[\]]/g)?.length ?? 0;
     let tape = 1;
     let steps = 0;
 
