@@ -416,6 +416,7 @@ leaderboard(
     return [data.concat(x), y];
   },
   [
+    [",>,>,>,>,>,>,>,>,>,>,[-[-[->+<]>]<<<<<<<<<<.[>],]", "@sdi"],
   ],
 );
 
@@ -441,9 +442,27 @@ leaderboard(
 // Year 32: Inventory Report
 // FIXME
 
-// Year 34: Vowel Incinerator
-// Output every input, except primes.
-// FIXME
+function is_prime(x) {
+  if(!Number.isInteger(x)) { return false; }
+  if(x < 2) { return false; }
+  if(x < 4) { return true; }
+  if(x % 2 === 0) { return false; }
+  for(let y = 3; y * y <= x; y += 2) { if(x % y === 0) { return false; } }
+  return true;
+}
+
+leaderboard(
+  "Year 34: Vowel Incinerator",
+  // Output every input, except primes.
+  10,
+  () => {
+    const n = range(3, 20);
+    const x = range_array(n, 2, 99);
+    return [x, x.filter(x => !is_prime(x))];
+  },
+  [
+  ],
+);
 
 // Year 35: Duplicate Removal
 // FIXME
