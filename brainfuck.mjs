@@ -8,6 +8,8 @@ function brainfuck(source, input) {
   for(let i = 0; i < source.length; i++) {
     switch(source[i]) {
       case "+":
+        // NB: I doubt it's even possible to trip this, but...
+        if(tape[p] === Number.MAX_SAFE_INTEGER) { throw new Error("Data overflow"); }
         tape[p]++;
         break;
       case "-":
