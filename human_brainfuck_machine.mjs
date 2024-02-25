@@ -274,8 +274,6 @@ leaderboard(
   ],
 );
 
-// Year 20: Multiplication Workshop
-// For each pair of inputs, output their product.
 leaderboard(
   "Year 20: Multiplication Workshop",
   // For each pair of inputs, output their product.
@@ -315,6 +313,7 @@ leaderboard(
     return [x, y];
   },
   [
+    [",[>[-]+>[-]+<<-[>[->>+<<]>[<+>->+<]>[<+>-]<<<-]>.<,]", "@sdi"],
   ],
 );
 
