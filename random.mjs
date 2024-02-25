@@ -16,8 +16,10 @@ function float() {
   return (uint32() - 1) / 0xFFFFFFFF;
 }
 
-// FIXME: This is a horrible way to do this: it would be much better to simply
-// use modular arithmetic on uint32().
+// NB: This method is *BIASED,* in that some values will be more likely than
+// others. For a toy application like this, it's fine, but don't reference this
+// code in situations where unbiased results are important.
+// https://www.pcg-random.org/posts/bounded-rands.html
 function range(min, max) {
   return min + Math.floor((max + 1 - min) * float());
 }
