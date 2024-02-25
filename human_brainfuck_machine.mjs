@@ -1,6 +1,6 @@
-import {brainfuck} from "./brainfuck.mjs";
-import {header, leaderboard} from "./leaderboard.mjs";
-import {uint32, range, range_ne, range_array} from "./random.mjs";
+import {brainfuck} from "./lib/brainfuck.mjs";
+import {header, leaderboard} from "./lib/leaderboard.mjs";
+import {uint32, range, range_ne, range_array} from "./lib/random.mjs";
 
 header("Human Brainfuck Machine Leaderboards");
 
