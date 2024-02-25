@@ -465,8 +465,22 @@ leaderboard(
   ],
 );
 
-// Year 35: Duplicate Removal
-// FIXME
+leaderboard(
+  "Year 35: Duplicate Removal",
+  // Copy each unique input to the output.
+  10,
+  () => {
+    const n = range(3, 20);
+    const r = uint32();
+    const x = new Array(n);
+    x[0] = range(1, 99);
+    for(let i = 1; i < n; i++) { x[i] = ((r >> i) & 1)? range(1, 99): x[range(0, i - 1)]; }
+
+    return [x, Array.from(new Set(x))];
+  },
+  [
+  ],
+);
 
 // Year 36: Alphabetizer
 // FIXME
