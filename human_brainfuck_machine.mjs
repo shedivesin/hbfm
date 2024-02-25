@@ -448,6 +448,7 @@ function is_prime(x) {
   if(x < 4) { return true; }
   if(x % 2 === 0) { return false; }
   for(let y = 3; y * y <= x; y += 2) { if(x % y === 0) { return false; } }
+
   return true;
 }
 
