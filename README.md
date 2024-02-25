@@ -9,7 +9,7 @@ So this project is a simple implementation of a Brainfuck interpreter, with a li
 ## Brainfuck Interpreter
 There is, perhaps, no one true Brainfuck specification, since minor variations crept into the language early and stuck with it. This project is no different, and its specification is as follows:
 
-*   Memory consists of 32768 cells.
+*   Memory consists of 2^15 cells.
 *   The pointer is initially at the leftmost end of memory.
 *   Memory does not wrap, and it is an error to move the pointer to the left of the first cell or to the right of the last.
 *   Cells may contain integers between 0 and 2^53-1.
@@ -17,3 +17,6 @@ There is, perhaps, no one true Brainfuck specification, since minor variations c
 *   Cells do not wrap, and it is an error to decrement a cell from zero or increment a cell from 2^53-1. (Though how on earth you'd hit the latter restriction is beyond me.)
 *   The input stream returns zero once the end of input has been reached.
 *   It is an error to output zero to the output stream.
+*   The machine halts after running for 2^24 steps.
+
+None of the problems are complicated enough to require hundreds of cells, values in the thousands, or millions of steps of runtime; those restrictions are really just to keep things practical and catch when one's program spirals out of control.
