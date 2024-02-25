@@ -20,6 +20,7 @@ function brainfuck(source, input) {
         tape[p] = (q < input.length)? input[q++]: 0;
         break;
       case ".":
+        if(!tape[p]) { throw new Error("May not output zero"); }
         if(output.length === 0x3FF) { throw new Error("Output overflow"); }
         output.push(tape[p]);
         break;
