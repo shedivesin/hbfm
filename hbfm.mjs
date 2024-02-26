@@ -494,6 +494,9 @@ leaderboard(
   // index and repeat. An index of 7 means that the chain has ended.
   10,
   () => {
+    // FIXME: In theory, this doesn't need to be a linear chain: any acyclic
+    // graph would be fine. In practice, I have a hard time visualizing any
+    // plausible solution for which this would matter.
     const chain = shuffle([1, 2, 3, 4, 5, 6]);
     chain.push(7);
 
