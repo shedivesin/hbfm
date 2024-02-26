@@ -550,8 +550,6 @@ leaderboard(
   },
   [
     // http://brainfuck.org/results2.txt
-    // DBC calls this a selection sort, but to be honest, it's really much more
-    // like a sleepsort if you ask me. In any case, it's shockingly concise.
     [">>,[>>,]<<[[-<+<]>[>[>>]<[.[-]<[[>>+<<-]<]>>]>]<<]", "Daniel B. Cristofani"],
 
     // https://codegolf.stackexchange.com/a/4764
