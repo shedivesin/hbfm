@@ -314,6 +314,9 @@ leaderboard(
   },
   [
     [",[>[-]+>[-]+<<-[>[->>+<<]>[<+>->+<]>[<+>-]<<<-]>.<,]", "@sdi"],
+    // Precompute the first 20 Fibonacci numbers, then look them up. (NB: This
+    // solution is EVIL, as it should work on arbitrary inputs.)
+    [">+>+++[->++++++<]>+[-[->+<]<<<[->>+>+<<<]>>>[<<<+>>>-]<<[->+>+<<]>>[<<+>>-]>]<,[-[-[->+<]>]<<<<<<<<<<<<<<<<<<<<.[>],]", "@sdi"],
   ],
 );
 
