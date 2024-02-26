@@ -608,17 +608,24 @@ leaderboard(
     return [x, y];
   },
   [
+    // bubble sort
     // http://brainfuck.org/bsort.b
     [">>,[>>,]<<[[<<]>>>>[<<[>+<<+>-]>>[>+<<<<[->]>[<]>>-]<<<[[-]>>[>+<-]>>[<<<+>>>-]]>>[[<+>-]>>]<]<<[>>+<<-]<<]>>>>[.>>]", "Daniel B. Cristofani"],
 
+    // insertion sort
     // http://brainfuck.org/isort.b
     [">+[<[[>>+<<-]>[<<+<[->>+[<]]>>>[>]<<-]<<<]>>[<<+>>-]<[>+<-]>[>>]<,]<<<[<+<]>[>.>]", "Daniel B. Cristofani"],
 
+    // selection sort
     // http://brainfuck.org/results2.txt
     [">>,[>>,]<<[[-<+<]>[>[>>]<[.[-]<[[>>+<<-]<]>>]>]<<]", "Daniel B. Cristofani"],
 
+    // spaghetti sort?
     // https://codegolf.stackexchange.com/a/4764
     [">,[[-[>>+<<-]>+>]<[<<]>,]+>[>+<-]>[>[>+<<->-]<[<<.>>-]<<[>>+<<-]>>+>>]", "AShelly"],
+
+    // counting sort
+    [">,[[-[->>>+<<<]>>+>]<<+>[<<<]>,]+>>[<[<.>-]<[->>>+<<<]>>>+>>]", "@sdi"],
   ],
 );
 
