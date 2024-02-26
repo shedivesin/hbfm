@@ -1,6 +1,6 @@
 import {brainfuck} from "./lib/brainfuck.mjs";
 import {header, leaderboard} from "./lib/leaderboard.mjs";
-import {uint32, range, range_ne, range_array} from "./lib/random.mjs";
+import {uint32, range, range_ne, range_array, shuffle} from "./lib/random.mjs";
 
 header("Human Brainfuck Machine Leaderboards");
 
@@ -485,8 +485,38 @@ leaderboard(
 // Year 36: Alphabetizer
 // FIXME
 
-// Year 37: Scavenger Chain
-// FIXME
+leaderboard(
+  "Year 37: Scavenger Chain",
+  // The first twelve inputs are reference data, consisting of pairs containing
+  // a value and an index to a different piece of reference data. The remainder
+  // of inputs are indexes to reference data. For each of those remaining
+  // inputs, output the data's value at that index, and then follow the data's
+  // index and repeat. An index of 7 means that the chain has ended.
+  10,
+  () => {
+    const chain = shuffle([1, 2, 3, 4, 5, 6]);
+    chain.push(7);
+
+    const data = new Array(12);
+    for(let i = 0; i < 6; i++) {
+      data[i * 2 + 0] = range(1, 99);
+      data[i * 2 + 1] = chain[chain.indexOf(i + 1) + 1];
+    }
+
+    const n = range(3, 10);
+    const x = range_array(n, 1, 7);
+    const y = [];
+    for(let i = 0; i < n; i++) {
+      for(let t = x[i]; t < 7; t = data[(t - 1) * 2 + 1]) {
+        y.push(data[(t - 1) * 2 + 0]);
+      }
+    }
+
+    return [data.concat(x), y];
+  },
+  [
+  ],
+);
 
 leaderboard(
   "Year 38: Digit Exploder",
@@ -512,8 +542,34 @@ leaderboard(
   ],
 );
 
-// Year 39: Re-Coordinator
-// FIXME
+leaderboard(
+  "Year 39: Re-Coordinator",
+  // Consider this table:
+  //
+  //     |  | 1| 2| 3| 4|
+  //     +--+--+--+--+--+
+  //     | 1| 1| 2| 3| 4|
+  //     | 2| 5| 6| 7| 8|
+  //     | 3| 9|10|11|12|
+  //     | 4|13|14|15|16|
+  //
+  // For each input, output it's column number followed by it's row number.
+  // (For example, given the input 7, output 3 then 2.)
+  10,
+  () => {
+    const n = range(3, 10);
+    const x = range_array(n, 1, 16);
+    const y = new Array(n * 2);
+    for(let i = 0; i < n; i++) {
+      y[i * 2 + 0] = ((x[i] - 1) % 4) + 1;
+      y[i * 2 + 1] = Math.floor((x[i] - 1) / 4) + 1;
+    }
+
+    return [x, y];
+  },
+  [
+  ],
+);
 
 leaderboard(
   "Year 40: Prime Factory",
