@@ -1,8 +1,9 @@
+#!/usr/bin/env node
 import {brainfuck} from "./lib/brainfuck.mjs";
 import {header, leaderboard} from "./lib/leaderboard.mjs";
 import {uint32, range, range_ne, range_array, shuffle} from "./lib/random.mjs";
 
-header("Human Brainfuck Machine Leaderboards");
+header("Human Brainfuck Machine Leaderboards", 1);
 
 leaderboard(
   "Year 1: Mail Room",
