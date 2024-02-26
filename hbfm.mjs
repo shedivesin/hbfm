@@ -435,8 +435,7 @@ leaderboard(
     return [x, y];
   },
   [
-    // Naive solution.
-    [">,[>,]<[.<]", "@sdi"],
+    [">,[>,]<[.<]", "folklore"],
   ],
 );
 
@@ -609,6 +608,12 @@ leaderboard(
     return [x, y];
   },
   [
+    // http://brainfuck.org/bsort.b
+    [">>,[>>,]<<[[<<]>>>>[<<[>+<<+>-]>>[>+<<<<[->]>[<]>>-]<<<[[-]>>[>+<-]>>[<<<+>>>-]]>>[[<+>-]>>]<]<<[>>+<<-]<<]>>>>[.>>]", "Daniel B. Cristofani"],
+
+    // http://brainfuck.org/isort.b
+    [">+[<[[>>+<<-]>[<<+<[->>+[<]]>>>[>]<<-]<<<]>>[<<+>>-]<[>+<-]>[>>]<,]<<<[<+<]>[>.>]", "Daniel B. Cristofani"],
+
     // http://brainfuck.org/results2.txt
     [">>,[>>,]<<[[-<+<]>[>[>>]<[.[-]<[[>>+<<-]<]>>]>]<<]", "Daniel B. Cristofani"],
 
