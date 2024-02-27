@@ -1,5 +1,5 @@
 # Human Brainfuck Machine
-So, Human Resource Machine is a cute game designed to teach children how a computer works and how to write programs for one. It's fun, but as a computer programmer with a few decades of experience under my belt, it's of course a bit too easy for me. I thought it might be more interesting to try and play the game using a more esoteric instruction set, and [Brainfuck][] seemed like ~a good idea at the time~ a natural choice. (I always wanted an excuse to play around with Brainfuck, anyway.)
+So, [Human Resource Machine][] is a cute game designed to teach children how a computer works and how to write programs for one. It's fun, but as a computer programmer with a few decades of experience under my belt, it's of course a bit too easy for me. I thought it might be more interesting to try and play the game using a more esoteric instruction set, and [Brainfuck][] seemed like ~a good idea at the time~ a natural choice. (I always wanted an excuse to play around with Brainfuck, anyway.)
 
 [Human Resource Machine]: https://tomorrowcorporation.com/humanresourcemachine
 [Brainfuck]: https://esolangs.org/wiki/Brainfuck
