@@ -16,6 +16,7 @@ leaderboard(
   [
     // Naive solution.
     [",.,.,.", "@sdi"],
+
     // https://esolangs.org/wiki/brainfuck#Cat
     [",[.,]", "folklore"],
   ],
@@ -44,6 +45,8 @@ leaderboard(
   [
     // Naive solution.
     ["++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.+++++++++++++++++++.--------------.", "@sdi"],
+
+    // Make 6, make 66 and 7, make 85 and 14, make 71.
     ["++++++[->+++++++++++>+<<]+>.+>[-<<+>+++>]<.<[->--<]>.", "@sdi"],
   ],
 );
@@ -101,6 +104,7 @@ leaderboard(
   [
     // Naive solution.
     [",[-[+.[-]],]", "@sdi"],
+
     // Evil optimization of the above which wastes tape to avoid a clear loop.
     [",[-[+.>],]", "@sdi"],
   ],
@@ -118,6 +122,7 @@ leaderboard(
   [
     // Naive solution.
     [",[[->+++<]>.[-]<,]", "@sdi"],
+
     // Evil optimization of the above which wastes tape to avoid a clear loop.
     [",[[->+++<]>.,]", "@sdi"],
   ],
@@ -137,6 +142,7 @@ leaderboard(
     return [x, x.filter(x => x === 1)];
   },
   [
+    // Naive solution.
     [",[->+<[>-<[-]],]+>[-<.>]", "@sdi"],
   ],
 );
@@ -167,6 +173,14 @@ leaderboard(
     return [x, y];
   },
   [
+    // Make the tape hold 1 0 A B. In a loop, we subtract 1 from both A and B
+    // in a loop such that when either becomes zero, we end the loop one cell
+    // to the right of the value that didn't; we then output it and use the
+    // sentinel cells to reposition the pointer.
+    ["+>>,[>,[-<-[<]>>]<.<<[>]>,]", "@sdi"],
+
+    // Evil optimization of the above which wastes tape to avoid resetting.
+    [">,[>,[-<-[<]>>]<.,]", "@sdi"],
   ],
 );
 
@@ -180,7 +194,11 @@ leaderboard(
     return [x, x.map(x => x * 40)];
   },
   [
+    // Multiply by 5, then multiply by 8, ending in the original cell to avoid
+    // clearing.
     [",[[->+++++<]>[-<++++++++>]<.,]", "@sdi"],
+
+    // Multiply by 40, then evilly waste tape to avoid clearing.
     [",[[->++++++++++++++++++++++++++++++++++++++++<]>.,]", "@sdi"],
   ],
 );
@@ -271,6 +289,7 @@ leaderboard(
     return [x, y];
   },
   [
+    // Naive solution.
     [",[[.-],]", "@sdi"],
   ],
 );
@@ -288,6 +307,7 @@ leaderboard(
     return [x, y];
   },
   [
+    // Naive solution. Tape holds A B t A*B, t holding a temporary copy of B.
     [",[>,<[->[->+>+<<]>[-<+>]<<]>>>.[-]<<<,]", "@sdi"],
   ],
 );
@@ -314,6 +334,9 @@ leaderboard(
     return [x, y];
   },
   [
+    // Tape holds N B A t 0. Initially, B=1, A=0, t=0. Each step, A+=B, t+=B,
+    // B=0. Then, copy A and t one cell to the left. Finally, print B, make
+    // sure A is nonzero, and clear cells until we hit N.
     [",[->+<[->[->+>+<<]>[[<+>-]>]<<<<]>.>+[[-]<],]", "@sdi"],
   ],
 );
@@ -417,6 +440,10 @@ leaderboard(
     return [data.concat(x), y];
   },
   [
+    // First 10 cells are data. Read input into eleventh cell, decrement it,
+    // and move it to the right. When it reaches zero, we'll be in cell 10+N.
+    // Then we can just move left 10 times, output it, and move back to the
+    // eleventh cell.
     [",>,>,>,>,>,>,>,>,>,>,[-[-[->+<]>]<<<<<<<<<<.[>],]", "@sdi"],
   ],
 );
@@ -435,6 +462,7 @@ leaderboard(
     return [x, y];
   },
   [
+    // Naive solution.
     [">,[>,]<[.<]", "folklore"],
   ],
 );
@@ -628,8 +656,12 @@ leaderboard(
     // https://codegolf.stackexchange.com/a/33030
     [">>,[>>+[->>+<<],]>>[<<<<<<[>>[<+<-[>>>]>>[-[-<<+>>]+>>>]<<<-]<[-<+>>+<]<<<]>>[>>]>>-]<<<<[.<<]", "jimmy23013"],
 
-    // counting sort
+    // Counting sort. Tape holds 0 t C 1 t C 1 ..., where t is scratch space
+    // for iterating, the Nth C holds the count for the Nth item, and 1 is a
+    // nonzero value marking the presence of a chain cell (so we can iterate
+    // back to the beginning or to the end).
+    // FIXME: I have a feeling this could be shorter if we used 2 cells per
+    // bucket, with the counter doubling up as the "does this cell exist" bit.
     [">,[[-[->>>+<<<]>>+>]<<+>[<<<]>,]+>>[<[<.>-]<[->>>+<<<]>>>+>>]", "@sdi"],
   ],
 );
-
