@@ -660,8 +660,6 @@ leaderboard(
     // for iterating, the Nth C holds the count for the Nth item, and 1 is a
     // nonzero value marking the presence of a chain cell (so we can iterate
     // back to the beginning or to the end).
-    // FIXME: I have a feeling this could be shorter if we used 2 cells per
-    // bucket, with the counter doubling up as the "does this cell exist" bit.
     [">,[[-[->>>+<<<]>>+>]<<+>[<<<]>,]+>>[<[<.>-]<[->>>+<<<]>>>+>>]", "@sdi"],
   ],
 );
