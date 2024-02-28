@@ -648,7 +648,7 @@ leaderboard(
     // http://brainfuck.org/results2.txt
     [">>,[>>,]<<[[-<+<]>[>[>>]<[.[-]<[[>>+<<-]<]>>]>]<<]", "Daniel B. Cristofani"],
 
-    // spaghetti sort?
+    // Run-length counting sort?
     // https://codegolf.stackexchange.com/a/4764
     [">,[[-[>>+<<-]>+>]<[<<]>,]+>[>+<-]>[>[>+<<->-]<[<<.>>-]<<[>>+<<-]>>+>>]", "AShelly"],
 
@@ -661,5 +661,8 @@ leaderboard(
     // nonzero value marking the presence of a chain cell (so we can iterate
     // back to the beginning or to the end).
     [">,[[-[->>>+<<<]>>+>]<<+>[<<<]>,]+>>[<[<.>-]<[->>>+<<<]>>>+>>]", "@sdi"],
+
+    // Run-length counting sort. Optimization of AShelly's, above.
+    [">,[[-[->>+<<]>+>]<[<<]>,]>[->+<]+>[>[<->->+<]<[<.>-]<[->>+<<]>>+>]", "@sdi"],
   ],
 );
