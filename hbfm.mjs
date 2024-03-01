@@ -507,6 +507,8 @@ leaderboard(
     return [x, Array.from(new Set(x))];
   },
   [
+    // Quick and dirty first attempt.
+    [">>,[[-[->>>+<<<]>+[->>>+<<<]+>>]<[>>[-]<<-]+>>[.[-]]+[-<<<]>>,]", "@sdi"],
   ],
 );
 
