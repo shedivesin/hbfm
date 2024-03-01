@@ -312,8 +312,36 @@ leaderboard(
   ],
 );
 
-// Year 21: Zero Terminated Sum
-// FIXME
+leaderboard(
+  "Year 21: Zero Terminated Sum",
+  // Input consists of a series of strings. Each string consists of a
+  // length L, followed by L numbers N1, N2, ..., NL. For each string,
+  // output the sum N1 + N2 + ... + NL.
+  // NB: HRM uses zero-delimited (C-style) strings. We use length-prefixed
+  // (Pascal-style) strings since we do not allow zeroes in input/output.
+  10,
+  () => {
+    const n = range(2, 5);
+    const x = [];
+    const y = [];
+    for(let i = 0; i < n; i++) {
+      const len = range(1, 8);
+      const str = range_array(len, 1, 99);
+
+      let sum = 0;
+      for(let j = 0; j < len; j++) { sum += str[j]; }
+
+      x.push(len, ...str);
+      y.push(sum);
+    }
+
+    return [x, y];
+  },
+  [
+    // Quick and dirty first attempt.
+    [",[[->>,[<+>-]<<]>.[-]<,]", "@sdi"],
+  ],
+);
 
 leaderboard(
   "Year 22: Fibonacci Visitor",
