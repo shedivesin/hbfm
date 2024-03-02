@@ -477,7 +477,8 @@ leaderboard(
 );
 
 // Year 30: String Storage Floor
-// FIXME
+// FIXME: HRM uses zero-delimited strings here, which isn't appropriate given
+// our I/O model. Is there something else we can do?
 
 leaderboard(
   "Year 31: String Reverse",
@@ -495,8 +496,23 @@ leaderboard(
   ],
 );
 
-// Year 32: Inventory Report
-// FIXME
+leaderboard(
+  "Year 32: Inventory Report",
+  // The first 10 inputs are reference data. For each subsequent input, output
+  // how many of the reference cells are equal to it.
+  10,
+  () => {
+    const m = range(1, 10);
+    const numbers = range_array(m, 1, 99);
+    const data = range_array(10, 1, m).map(i => numbers[i - 1]);
+
+    const n = range(3, 10);
+    const x = range_array(n, 1, data.length).map(i => data[i - 1]);
+    return [data.concat(x), x.map(x => data.filter(y => x === y).length)];
+  },
+  [
+  ],
+);
 
 function is_prime(x) {
   if(!Number.isInteger(x)) { return false; }
