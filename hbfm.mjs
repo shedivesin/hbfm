@@ -179,10 +179,10 @@ leaderboard(
     return [x, y];
   },
   [
-    // Make the tape hold 1 0 A B. In a loop, we subtract 1 from both A and B
-    // in a loop such that when either becomes zero, we end the loop one cell
-    // to the right of the value that didn't; we then output it and use the
-    // sentinel cells to reposition the pointer.
+    // Make the tape hold 1 0 A B. We subtract 1 from both A and B in a loop
+    // such that when either becomes zero, we end the loop one cell to the
+    // right of the value that didn't; we then output it and use the sentinel
+    // cells to reposition the pointer.
     ["+>>,[>,[-<-[<]>>]<.<<[>]>,]", "@sdi"],
 
     // Evil optimization of the above which wastes tape to avoid resetting.
