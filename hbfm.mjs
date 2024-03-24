@@ -6,7 +6,8 @@ import {uint32, range, range_ne, range_array, shuffle} from "./lib/random.mjs";
 header("Human Brainfuck Machine Leaderboards", 1);
 
 leaderboard(
-  "Year 1: Mail Room",
+  1,
+  "Mail Room",
   // Copy the three inputs to the output.
   10,
   () => {
@@ -23,7 +24,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 2: Busy Mail Room",
+  2,
+  "Busy Mail Room",
   // Copy the input to the output.
   10,
   () => {
@@ -38,7 +40,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 3: Copy Floor",
+  3,
+  "Copy Floor",
   // Output the sequence 66-85-71 (ASCII "BUG").
   1,
   () => [[], [66, 85, 71]],
@@ -55,7 +58,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 4: Scrambler Handler",
+  4,
+  "Scrambler Handler",
   // For each pair of inputs, swap and output them.
   10,
   () => {
@@ -73,7 +77,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 6: Rainy Summer",
+  6,
+  "Rainy Summer",
   // For each pair of inputs, output their sum.
   10,
   () => {
@@ -91,7 +96,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 7: Zero Exterminator",
+  7,
+  "Zero Exterminator",
   // Copy the input, except ones, to the output.
   // NB: HRM exterminates zeroes rather than ones, but we can't do that in
   // Brainfuck since zero is the end-of-input marker.
@@ -114,7 +120,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 8: Tripler Room",
+  8,
+  "Tripler Room",
   // For each input, triple and output it.
   10,
   () => {
@@ -132,7 +139,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 9: Zero Preservation Initiative",
+  9,
+  "Zero Preservation Initiative",
   // NB: HRM exterminates zeroes rather than ones, but we can't do that in
   // Brainfuck since zero is the end-of-input marker.
   10,
@@ -159,7 +167,8 @@ leaderboard(
 // interesting variation we could do, instead?
 
 leaderboard(
-  "Year 11: Sub Hallway",
+  11,
+  "Sub Hallway",
   // For each pair of inputs, output their absolute difference. (These inputs
   // will never be identical.)
   // NB: HRM outputs a-b then b-a, but we don't have negative numbers.
@@ -191,7 +200,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 12: Tetracontiplier",
+  12,
+  "Tetracontiplier",
   // For each input, multiply it by forty and output it.
   10,
   () => {
@@ -210,7 +220,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 13: Equalization Room",
+  13,
+  "Equalization Room",
   // For each pair of inputs, if they are equal, output one of them.
   10,
   () => {
@@ -238,7 +249,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 14: Maximation Room",
+  14,
+  "Maximation Room",
   // For each pair of inputs, output the larger of the two. (If they're equal,
   // just output one of them.)
   10,
@@ -259,7 +271,8 @@ leaderboard(
 // interesting variation we could do, instead?
 
 leaderboard(
-  "Year 17: Exclusive Lounge",
+  17,
+  "Exclusive Lounge",
   // For each pair of inputs, output a 1 if they have the opposite parity (e.g.
   // one is even and the other is odd), or 2 if they have the same parity.
   // NB: HRM uses sign bit, but we don't have negative numbers, so we use the
@@ -283,7 +296,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 19: Countdown",
+  19,
+  "Countdown",
   // For each input, output it followed by each number down to one.
   10,
   () => {
@@ -301,7 +315,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 20: Multiplication Workshop",
+  20,
+  "Multiplication Workshop",
   // For each pair of inputs, output their product.
   10,
   () => {
@@ -319,7 +334,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 21: Zero Terminated Sum",
+  21,
+  "Zero Terminated Sum",
   // Input consists of a series of strings. Each string consists of a
   // length L, followed by L numbers N1, N2, ..., NL. For each string,
   // output the sum N1 + N2 + ... + NL.
@@ -350,7 +366,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 22: Fibonacci Visitor",
+  22,
+  "Fibonacci Visitor",
   // For each input N, output the Nth Fibonacci number.
   // NB: F(1)=1, F(2)=1, F(N)=F(N-2)+F(N-1).
   // NB: HRM has us output all Fibonacci numbers less than N, but I figure this
@@ -376,7 +393,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 23: The Littlest Number",
+  23,
+  "The Littlest Number",
   // Output the smallest number in the input.
   // FIXME: HRM uses zero-delimited strings, and expects an output for each.
   // I'm not sure that adds much to this puzzle, but it's worth considering.
@@ -393,7 +411,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 24: Mod Module",
+  24,
+  "Mod Module",
   // For each pair of inputs, output the remainder of the first divided by the
   // second.
   10,
@@ -410,7 +429,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 25: Cumulative Countdown",
+  25,
+  "Cumulative Countdown",
   // For each input, output the sum of itself and all numbers down to one;
   // e.g. if the input is 3, output 3+2+1=6.
   10,
@@ -427,7 +447,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 26: Small Divide",
+  26,
+  "Small Divide",
   // For each pair of inputs, output the first divided by the second.
   10,
   () => {
@@ -443,7 +464,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 28: Three Sort",
+  28,
+  "Three Sort",
   // For each triplet of inputs, output them in sorted order.
   10,
   () => {
@@ -459,7 +481,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 29: Storage Floor",
+  29,
+  "Storage Floor",
   // The first 10 inputs are reference data. For each subsequent input N,
   // output the Nth referenced input.
   10,
@@ -487,7 +510,8 @@ leaderboard(
 // our I/O model. Is there something else we can do?
 
 leaderboard(
-  "Year 31: String Reverse",
+  31,
+  "String Reverse",
   // Output the bytes of the input in reverse order.
   10,
   () => {
@@ -503,7 +527,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 32: Inventory Report",
+  32,
+  "Inventory Report",
   // The first 10 inputs are reference data. For each subsequent input, output
   // how many of the reference cells are equal to it.
   10,
@@ -531,7 +556,8 @@ function is_prime(x) {
 }
 
 leaderboard(
-  "Year 34: Vowel Incinerator",
+  34,
+  "Vowel Incinerator",
   // Output every input, except primes.
   10,
   () => {
@@ -544,7 +570,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 35: Duplicate Removal",
+  35,
+  "Duplicate Removal",
   // Copy each unique input to the output.
   10,
   () => {
@@ -566,7 +593,8 @@ leaderboard(
 // FIXME
 
 leaderboard(
-  "Year 37: Scavenger Chain",
+  37,
+  "Scavenger Chain",
   // The first twelve inputs are reference data, consisting of pairs containing
   // a value and an index to a different piece of reference data. The remainder
   // of inputs are indexes to reference data. For each of those remaining
@@ -602,7 +630,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 38: Digit Exploder",
+  38,
+  "Digit Exploder",
   // For each input, output its digits.
   10,
   () => {
@@ -626,7 +655,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 39: Re-Coordinator",
+  39,
+  "Re-Coordinator",
   // Consider this table:
   //
   //     |  | 1| 2| 3| 4|
@@ -655,7 +685,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 40: Prime Factory",
+  40,
+  "Prime Factory",
   // For each input, output its prime factors in sorted order.
   10,
   () => {
@@ -678,7 +709,8 @@ leaderboard(
 );
 
 leaderboard(
-  "Year 41: Sorting Floor",
+  41,
+  "Sorting Floor",
   // Output the input in sorted order.
   10,
   () => {
