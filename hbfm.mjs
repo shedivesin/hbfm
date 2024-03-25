@@ -3,12 +3,12 @@ import {brainfuck} from "./lib/brainfuck.mjs";
 import {header, leaderboard} from "./lib/leaderboard.mjs";
 import {uint32, range, range_ne, range_array, shuffle} from "./lib/random.mjs";
 
-header("Human Brainfuck Machine Leaderboards", 1);
+header("Human Brainfuck Machine Leaderboards");
 
 leaderboard(
   1,
   "Mail Room",
-  // Copy the three inputs to the output.
+  "Copy the three inputs to the output.",
   10,
   () => {
     const x = range_array(3, 1, 99);
@@ -26,7 +26,7 @@ leaderboard(
 leaderboard(
   2,
   "Busy Mail Room",
-  // Copy the input to the output.
+  "Copy the input to the output.",
   10,
   () => {
     const n = range(3, 20);
@@ -42,7 +42,7 @@ leaderboard(
 leaderboard(
   3,
   "Copy Floor",
-  // Output the sequence 66-85-71 (ASCII "BUG").
+  "Output the sequence 66-85-71 (ASCII \"BUG\").",
   1,
   () => [[], [66, 85, 71]],
   [
@@ -60,7 +60,7 @@ leaderboard(
 leaderboard(
   4,
   "Scrambler Handler",
-  // For each pair of inputs, swap and output them.
+  "For each pair of inputs, swap and output them.",
   10,
   () => {
     const n = range(3, 10) * 2;
@@ -79,7 +79,7 @@ leaderboard(
 leaderboard(
   6,
   "Rainy Summer",
-  // For each pair of inputs, output their sum.
+  "For each pair of inputs, output their sum.",
   10,
   () => {
     const n = range(3, 10);
@@ -98,7 +98,7 @@ leaderboard(
 leaderboard(
   7,
   "Zero Exterminator",
-  // Copy the input, except ones, to the output.
+  "Copy the input, except ones, to the output.",
   // NB: HRM exterminates zeroes rather than ones, but we can't do that in
   // Brainfuck since zero is the end-of-input marker.
   10,
@@ -122,7 +122,7 @@ leaderboard(
 leaderboard(
   8,
   "Tripler Room",
-  // For each input, triple and output it.
+  "For each input, triple and output it.",
   10,
   () => {
     const n = range(3, 20);
@@ -141,6 +141,7 @@ leaderboard(
 leaderboard(
   9,
   "Zero Preservation Initiative",
+  "Copy only the ones in the input to the output.",
   // NB: HRM exterminates zeroes rather than ones, but we can't do that in
   // Brainfuck since zero is the end-of-input marker.
   10,
@@ -169,8 +170,7 @@ leaderboard(
 leaderboard(
   11,
   "Sub Hallway",
-  // For each pair of inputs, output their absolute difference. (These inputs
-  // will never be identical.)
+  "For each pair of inputs, output their absolute difference.\n(These inputs will never be identical.)",
   // NB: HRM outputs a-b then b-a, but we don't have negative numbers.
   10,
   () => {
@@ -202,7 +202,7 @@ leaderboard(
 leaderboard(
   12,
   "Tetracontiplier",
-  // For each input, multiply it by forty and output it.
+  "For each input, multiply it by forty and output it.",
   10,
   () => {
     const n = range(3, 20);
@@ -222,7 +222,7 @@ leaderboard(
 leaderboard(
   13,
   "Equalization Room",
-  // For each pair of inputs, if they are equal, output one of them.
+  "For each pair of inputs, if they are equal, output one of them.",
   10,
   () => {
     const n = range(3, 10);
@@ -251,8 +251,7 @@ leaderboard(
 leaderboard(
   14,
   "Maximation Room",
-  // For each pair of inputs, output the larger of the two. (If they're equal,
-  // just output one of them.)
+  "For each pair of inputs, output the larger of the two.\n(If they're equal, just output one of them.)",
   10,
   () => {
     const n = range(3, 10);
@@ -273,23 +272,16 @@ leaderboard(
 leaderboard(
   17,
   "Exclusive Lounge",
-  // For each pair of inputs, output a 1 if they have the opposite parity (e.g.
-  // one is even and the other is odd), or 2 if they have the same parity.
-  // NB: HRM uses sign bit, but we don't have negative numbers, so we use the
-  // parity bit, instead.
-  // NB: It would be nicer to output 0 or 1 (e.g. the XOR of the parity bit),
-  // but we can't do that in Brainfuck since zero is the end-of-output marker.
+  "For each input, output a 1 if it is odd or a 2 if it is even.",
+  // NB: HRM uses two number's sign bits, but we don't have negative numbers,
+  // so we use the parity bit, instead. But then the parity of the two is just
+  // their sum, and the sum is trivial, so we remove that part since it doesn't
+  // add anything to the puzzle.
   10,
   () => {
-    const n = range(3, 10);
-    const x = range_array(n * 2, 1, 99);
-    const y = new Array(n);
-    for(let i = 0; i < n; i++) {
-      y[i] = (x[i * 2 + 0] ^ x[i * 2 + 1]) & 1;
-      if(y[i] === 0) { y[i] += 2; }
-    }
-
-    return [x, y];
+    const n = range(3, 20);
+    const x = range_array(n, 1, 99);
+    return [x, x.map(x => (x - 1) % 2 + 1)];
   },
   [
   ],
@@ -298,7 +290,7 @@ leaderboard(
 leaderboard(
   19,
   "Countdown",
-  // For each input, output it followed by each number down to one.
+  "For each input, output it followed by each number down to one.",
   10,
   () => {
     const n = range(3, 20);
@@ -317,7 +309,7 @@ leaderboard(
 leaderboard(
   20,
   "Multiplication Workshop",
-  // For each pair of inputs, output their product.
+  "For each pair of inputs, output their product.",
   10,
   () => {
     const n = range(3, 10);
@@ -336,9 +328,7 @@ leaderboard(
 leaderboard(
   21,
   "Zero Terminated Sum",
-  // Input consists of a series of strings. Each string consists of a
-  // length L, followed by L numbers N1, N2, ..., NL. For each string,
-  // output the sum N1 + N2 + ... + NL.
+  "Input consists of a series of strings. Each string consists of a length L,\nfollowed by L numbers N1, N2, ..., NL. For each string, output the sum\nN1 + N2 + ... + NL.",
   // NB: HRM uses zero-delimited (C-style) strings. We use length-prefixed
   // (Pascal-style) strings since we do not allow zeroes in input/output.
   10,
@@ -368,7 +358,7 @@ leaderboard(
 leaderboard(
   22,
   "Fibonacci Visitor",
-  // For each input N, output the Nth Fibonacci number.
+  "For each input N, output the Nth Fibonacci number.",
   // NB: F(1)=1, F(2)=1, F(N)=F(N-2)+F(N-1).
   // NB: HRM has us output all Fibonacci numbers less than N, but I figure this
   // variant is a bit more reasonable.
@@ -395,7 +385,7 @@ leaderboard(
 leaderboard(
   23,
   "The Littlest Number",
-  // Output the smallest number in the input.
+  "Output the smallest number in the input.",
   // FIXME: HRM uses zero-delimited strings, and expects an output for each.
   // I'm not sure that adds much to this puzzle, but it's worth considering.
   10,
@@ -413,8 +403,7 @@ leaderboard(
 leaderboard(
   24,
   "Mod Module",
-  // For each pair of inputs, output the remainder of the first divided by the
-  // second.
+  "For each pair of inputs, output the remainder of the first divided by the second.",
   10,
   () => {
     const n = range(3, 10);
@@ -431,8 +420,7 @@ leaderboard(
 leaderboard(
   25,
   "Cumulative Countdown",
-  // For each input, output the sum of itself and all numbers down to one;
-  // e.g. if the input is 3, output 3+2+1=6.
+  "For each input, output the sum of itself and all numbers down to one;\ne.g. if the input is 3, output 3+2+1=6.",
   10,
   () => {
     const n = range(3, 20);
@@ -449,7 +437,7 @@ leaderboard(
 leaderboard(
   26,
   "Small Divide",
-  // For each pair of inputs, output the first divided by the second.
+  "For each pair of inputs, output the first divided by the second.",
   10,
   () => {
     const n = range(3, 10);
@@ -466,7 +454,7 @@ leaderboard(
 leaderboard(
   28,
   "Three Sort",
-  // For each triplet of inputs, output them in sorted order.
+  "For each triplet of inputs, output them in sorted order.",
   10,
   () => {
     const n = range(3, 6) * 3;
@@ -483,8 +471,7 @@ leaderboard(
 leaderboard(
   29,
   "Storage Floor",
-  // The first 10 inputs are reference data. For each subsequent input N,
-  // output the Nth referenced input.
+  "The first 10 inputs are reference data. For each subsequent input N, output\nthe Nth referenced input.",
   10,
   () => {
     const data = range_array(10, 1, 99);
@@ -512,7 +499,7 @@ leaderboard(
 leaderboard(
   31,
   "String Reverse",
-  // Output the bytes of the input in reverse order.
+  "Output the bytes of the input in reverse order.",
   10,
   () => {
     const n = range(3, 20);
@@ -529,8 +516,7 @@ leaderboard(
 leaderboard(
   32,
   "Inventory Report",
-  // The first 10 inputs are reference data. For each subsequent input, output
-  // how many of the reference cells are equal to it.
+  "The first 10 inputs are reference data. For each subsequent input, output\nhow many of the reference cells are equal to it.",
   10,
   () => {
     const m = range(1, 10);
@@ -558,7 +544,7 @@ function is_prime(x) {
 leaderboard(
   34,
   "Vowel Incinerator",
-  // Output every input, except primes.
+  "Output every input, except primes.",
   10,
   () => {
     const n = range(3, 20);
@@ -572,7 +558,7 @@ leaderboard(
 leaderboard(
   35,
   "Duplicate Removal",
-  // Copy each unique input to the output.
+  "Copy each unique input to the output.",
   10,
   () => {
     const n = range(3, 20);
@@ -595,11 +581,7 @@ leaderboard(
 leaderboard(
   37,
   "Scavenger Chain",
-  // The first twelve inputs are reference data, consisting of pairs containing
-  // a value and an index to a different piece of reference data. The remainder
-  // of inputs are indexes to reference data. For each of those remaining
-  // inputs, output the data's value at that index, and then follow the data's
-  // index and repeat. An index of 7 means that the chain has ended.
+  "The first twelve inputs are reference data, consisting of pairs containing\na value and an index to a different piece of reference data. The remainder\nof inputs are indexes to reference data. For each of those remaining\ninputs, output the data's value at that index, and then follow the data's\nindex and repeat. An index of 7 means that the chain has ended.",
   10,
   () => {
     // FIXME: In theory, this doesn't need to be a linear chain: any acyclic
@@ -632,7 +614,7 @@ leaderboard(
 leaderboard(
   38,
   "Digit Exploder",
-  // For each input, output its digits.
+  "For each input, output its digits.",
   10,
   () => {
     const n = range(3, 10);
@@ -657,17 +639,7 @@ leaderboard(
 leaderboard(
   39,
   "Re-Coordinator",
-  // Consider this table:
-  //
-  //     |  | 1| 2| 3| 4|
-  //     +--+--+--+--+--+
-  //     | 1| 1| 2| 3| 4|
-  //     | 2| 5| 6| 7| 8|
-  //     | 3| 9|10|11|12|
-  //     | 4|13|14|15|16|
-  //
-  // For each input, output it's column number followed by it's row number.
-  // (For example, given the input 7, output 3 then 2.)
+  "Consider this table:\n\n|  | 1| 2| 3| 4|\n+--+--+--+--+--+\n| 1| 1| 2| 3| 4|\n| 2| 5| 6| 7| 8|\n| 3| 9|10|11|12|\n| 4|13|14|15|16|\n\nFor each input, output it's column number followed by it's row number.\n(For example, given the input 7, output 3 then 2.)",
   10,
   () => {
     const n = range(3, 10);
@@ -687,7 +659,7 @@ leaderboard(
 leaderboard(
   40,
   "Prime Factory",
-  // For each input, output its prime factors in sorted order.
+  "For each input, output its prime factors in sorted order.",
   10,
   () => {
     const n = range(3, 10);
@@ -711,7 +683,7 @@ leaderboard(
 leaderboard(
   41,
   "Sorting Floor",
-  // Output the input in sorted order.
+  "Output the input in sorted order.",
   10,
   () => {
     const n = range(3, 20);
