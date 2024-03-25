@@ -2,7 +2,7 @@
 import fs from "node:fs/promises";
 import {brainfuck} from "./lib/brainfuck.mjs";
 
-const input = process.argv[2].trim().split(/\s+/g);
+const input = process.argv[2]?.match(/\S+/g) ?? [];
 for(let i = 0; i < input.length; i++) {
   const str = input[i];
   const num = +str;
@@ -13,7 +13,7 @@ for(let i = 0; i < input.length; i++) {
   input[i] = num;
 }
 
-const pathname = process.argv[3];
+const pathname = process.argv[3] ?? "/dev/stdin";
 let source = await fs.readFile(pathname, "ascii");
 if(source.startsWith("#!")) {
   source = source.slice(source.indexOf("\n") + 1);
