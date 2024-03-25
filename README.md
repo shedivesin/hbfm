@@ -22,7 +22,12 @@ None of the problems are complicated enough to require hundreds of cells, values
 ## Project Structure
 The project consists of the following source files:
 
-*   `hbfm.mjs`: This file defines each level of the game with randomly-generated test cases, along with various solutions to each level. New solutions should go in this file, and by running it, you can see how these solutions compare. Solutions are ranked by the geometric mean of their size, how much memory they consume, and how fast they run.
+*   `bf.mjs`: This file defines a standalone Brainfuck interpreter. It takes two arguments: a space-delimited list of inputs to the machine, and a source file to read from. (If the source file is omitted, it reads from stdin.) So, for example, an example solution to the first year is as follows:
+
+        $ echo ',.,.,.' | ./bf.mjs '1 2 3'
+        Output: 1 2 3
+
+*   `hbfm.mjs`: This file defines each level of the game with randomly-generated test cases, along with various solutions to each level. New solutions should go in this file, and by running it, you can see how these solutions compare. Solutions are ranked by the geometric mean of their size, how much memory they consume, and how fast they run. You can also run it with `--year N` to get an example input/output for a given year.
 
 *   `lib/brainfuck.mjs`: This file defines an interpreter for Brainfuck.
 
